@@ -8,4 +8,4 @@
 
 
 ## [MIT Computer Graphics course](https://ocw.mit.edu/courses/6-837-computer-graphics-fall-2012/pages/calendar/)
-### add related reources here
+### [Course videos](https://www.youtube.com/watch?v=-LqUu61oRdk&list=PLQ3UicqQtfNuBjzJ-KEWmG1yjiRMXYKhh)
