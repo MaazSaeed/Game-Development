@@ -48,6 +48,9 @@ void keyboardFunc(unsigned char key, int x, int y)
         cout << "Change colour: key press " << key << "." << endl;
         i = (i + 1) % 4; // there are 4 colours, the array of colours is of size 4. Prevents from going out of bounds
         break;
+    case 'r':
+        // (extra credit) add code to rotate object
+        break;
     default:
         cout << "Unhandled key press " << key << "." << endl;
     }
@@ -231,7 +234,10 @@ void loadInput()
 
                 stringstream ss2(token);
                 unsigned a, b, c;
-                ss2 >> a >> b >> c;
+                // a corresponds to a, d, g
+                // b corresponds to b, e, h
+                // c corresponds to c, f, i
+                ss2 >> a >> b >> c; 
                 vf.push_back(a);
                 vf.push_back(b);
                 vf.push_back(c);
