@@ -19,8 +19,11 @@ vector<vector<unsigned> > vecf;
 
 
 // You will need more global variables to implement color and position changes
+int i = 0;
+float r_l = 1.0f;
+float u_d = 1.0f;
 
-
+/*
 // These are convenience functions which allow us to call OpenGL 
 // methods on Vec3d objects
 inline void glVertex(const Vector3f &a) 
@@ -28,7 +31,7 @@ inline void glVertex(const Vector3f &a)
 
 inline void glNormal(const Vector3f &a) 
 { glNormal3fv(a); }
-
+*/
 
 // This function is called whenever a "Normal" key press is received.
 void keyboardFunc( unsigned char key, int x, int y )
@@ -40,7 +43,8 @@ void keyboardFunc( unsigned char key, int x, int y )
         break;
     case 'c':
         // add code to change color here
-		cout << "Unhandled key press " << key << "." << endl; 
+		cout << "Change colour: key press " << key << "." << endl; 
+        i = (i + 1)%4; // there are 4 colours, the array of colours is of size 4. Prevents from going out of bounds
         break;
     default:
         cout << "Unhandled key press " << key << "." << endl;        
@@ -58,19 +62,23 @@ void specialFunc( int key, int x, int y )
     {
     case GLUT_KEY_UP:
         // add code to change light position
-		cout << "Unhandled key press: up arrow." << endl;
+		cout << "Light position goes up: up arrow." << endl;
+        u_d += 0.5;
 		break;
     case GLUT_KEY_DOWN:
         // add code to change light position
-		cout << "Unhandled key press: down arrow." << endl;
+		cout << "Light position goes down: down arrow." << endl;
+        u_d -= 0.5;
 		break;
     case GLUT_KEY_LEFT:
         // add code to change light position
-		cout << "Unhandled key press: left arrow." << endl;
+		cout << "Light position goes left: left arrow." << endl;
+        r_l -= 0.5;
 		break;
     case GLUT_KEY_RIGHT:
         // add code to change light position
-		cout << "Unhandled key press: right arrow." << endl;
+		cout << "Light position goes right: right arrow." << endl;
+        r_l += 0.5;
 		break;
     }
 
@@ -81,7 +89,6 @@ void specialFunc( int key, int x, int y )
 // This function is responsible for displaying the object.
 void drawScene(void)
 {
-    int i;
 
     // Clear the rendering window
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -100,12 +107,12 @@ void drawScene(void)
 
 	// Here are some colors you might use - feel free to add more
     GLfloat diffColors[4][4] = { {0.5, 0.5, 0.9, 1.0},
-                                 {0.9, 0.5, 0.5, 1.0},
                                  {0.5, 0.9, 0.3, 1.0},
-                                 {0.3, 0.8, 0.9, 1.0} };
+                                 {0.196, 0.635, 0.658, 1.0},
+                                 {0.411, 0.329, 0.768, 1.0} };
     
 	// Here we use the first color entry as the diffuse color
-    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, diffColors[0]);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE, diffColors[i]);
 
 	// Define specular color and shininess
     GLfloat specColor[] = {1.0, 1.0, 1.0, 1.0};
@@ -120,8 +127,8 @@ void drawScene(void)
     // Light color (RGBA)
     GLfloat Lt0diff[] = {1.0,1.0,1.0,1.0};
     // Light position
-	GLfloat Lt0pos[] = {1.0f, 1.0f, 5.0f, 1.0f};
-
+	GLfloat Lt0pos[] = {r_l, u_d, 5.0f, 1.0f};
+    
     glLightfv(GL_LIGHT0, GL_DIFFUSE, Lt0diff);
     glLightfv(GL_LIGHT0, GL_POSITION, Lt0pos);
 
