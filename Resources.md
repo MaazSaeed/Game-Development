@@ -4,7 +4,7 @@
 
 
 ## [Harvard GD50 course](https://cs50.harvard.edu/games/2018/)
-### add sub resources here
+### [GD50 GitHub Repository](https://github.com/cs50/gd50)
 
 
 ## [MIT Computer Graphics course](https://ocw.mit.edu/courses/6-837-computer-graphics-fall-2012/pages/calendar/)
