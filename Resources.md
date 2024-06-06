@@ -5,6 +5,7 @@
 
 ## [Harvard GD50 course](https://cs50.harvard.edu/games/2018/)
 ### [GD50 GitHub Repository](https://github.com/cs50/gd50)
+### [Repository Containing Step By Step Implementations](https://github.com/games50)
 
 
 ## [MIT Computer Graphics course](https://ocw.mit.edu/courses/6-837-computer-graphics-fall-2012/pages/calendar/)
