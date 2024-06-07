@@ -1,8 +1,8 @@
 Pipe = Class{}
 
-load PIPE_IMAGE = love.graphics.newImage('pipe.png')
+local PIPE_IMAGE = love.graphics.newImage('pipe.png')
 
-load PIPE_SCROLL = -60
+local PIPE_SCROLL = -60
 
 function Pipe:init()
     self.x = VIRTUAL_WIDTH
