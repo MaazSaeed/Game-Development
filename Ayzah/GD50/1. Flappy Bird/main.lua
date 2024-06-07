@@ -86,8 +86,8 @@ function love.draw()
 
     love.graphics.draw(background, -backgroundScroll, 0)
     
-    for k, pipe in pairs(pipePairs) do
-        pipe:render()
+    for k, pair in pairs(pipePairs) do
+        pair:render()
     end
     
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
@@ -95,7 +95,6 @@ function love.draw()
     bird:render()
 
     push:finish()
-    
 end
 
 function love.resize(w, h)
@@ -115,11 +114,11 @@ function love.update(dt)
         -- no higher than 10 pixels below the top edge of the screen,
         -- and no lower than a gap length (90 pixels) from the bottom
         local y = math.max(-PIPE_HEIGHT + 10,
-            math.min(lastY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+            math.min(lastY + math.random(-40, 40), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
         
         lastY = y
 
-        table.insert(pipes, PipePair(y))
+        table.insert(pipePairs, PipePair(y))
         
         spawnTimer = 0
     end
@@ -127,12 +126,20 @@ function love.update(dt)
     
     bird:update(dt)
     
-    for k, pipe in pairs(pipePairs) do
-        pipe:update(dt)
+    for k, pair in pairs(pipePairs) do
+        pair:update(dt)
+    end
 
+        -- Previously:
         -- pipe is outside the left side of the screen
-        if pipe.x < -pipe.width then
-            table.remove(pipes, k)
+        -- if pipe.x < -pipe.width then
+        --     table.remove(pipes, k)
+        -- end
+
+        -- Now:
+    for k, pair in pairs(pipePairs) do
+        if pair.remove then
+            table.remove(pipePairs, k)
         end
     end
     
