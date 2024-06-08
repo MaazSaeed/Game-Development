@@ -24,7 +24,7 @@ require 'StateMachine'
 
 require 'states/BaseState'
 require 'states/PlayState'
-require 'states/TitleScreenState
+require 'states/TitleScreenState'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -96,7 +96,7 @@ function love.draw()
     love.graphics.draw(background, -backgroundScroll, 0)
     
     gStateMachine:render()
-    
+
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
     
     push:finish()

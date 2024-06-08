@@ -55,11 +55,11 @@ function PlayState:update(dt)
         end
 
 
-        bird:update(dt)
+        self.bird:update(dt)
         
-
+        -- collision detectiton
         for k, pair in pairs(self.pipePairs) do
-            for l, pipe in pairs(self.pipes) do
+            for l, pipe in pairs(pair.pipes) do
                 if self.bird:collides(pipe) then
                 gStateMachine:change('title')
                 end
