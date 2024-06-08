@@ -26,6 +26,8 @@ WINDOW_HEIGHT = 720
 VIRTUAL_WIDTH = 512
 VIRTUAL_HEIGHT = 288
 
+scrolling = true
+
 -- local ensures the variable cannot be used in other files
 local background = love.graphics.newImage('background.png')
 local backgroundScroll = 0
@@ -102,46 +104,59 @@ function love.resize(w, h)
 end
 
 function love.update(dt)
-    backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
-    
-    groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
-
-    spawnTimer = spawnTimer + dt
-
-    if spawnTimer > 2 then
-        -- copied the comments as they were
-        -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
-        -- no higher than 10 pixels below the top edge of the screen,
-        -- and no lower than a gap length (90 pixels) from the bottom
-        local y = math.max(-PIPE_HEIGHT + 10,
-            math.min(lastY + math.random(-40, 40), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+    if scrolling then
+        backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
         
-        lastY = y
+        groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) % VIRTUAL_WIDTH
 
-        table.insert(pipePairs, PipePair(y))
-        
-        spawnTimer = 0
-    end
-    
-    
-    bird:update(dt)
-    
-    for k, pair in pairs(pipePairs) do
-        pair:update(dt)
-    end
+        spawnTimer = spawnTimer + dt
 
-        -- Previously:
-        -- pipe is outside the left side of the screen
-        -- if pipe.x < -pipe.width then
-        --     table.remove(pipes, k)
-        -- end
+        if spawnTimer > 3 then
+            -- copied the comments as they were
+            -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
+            -- no higher than 10 pixels below the top edge of the screen,
+            -- and no lower than a gap length (90 pixels) from the bottom
+            local y = math.max(-PIPE_HEIGHT + 10,
+                math.min(lastY + math.random(-40, 40), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+            
+            lastY = y
 
-        -- Now:
-    for k, pair in pairs(pipePairs) do
-        if pair.remove then
-            table.remove(pipePairs, k)
+            table.insert(pipePairs, PipePair(y))
+            
+            spawnTimer = 0
         end
+        
+        
+        bird:update(dt)
+        
+        for k, pair in pairs(pipePairs) do
+            pair:update(dt)
+
+
+            for l, pipe in pairs(pair.pipes) do
+                if bird:collides(pipe) then
+                    scrolling = false
+                end
+            end
+
+            if pair.x < -PIPE_WIDTH then 
+                pair.remove = true
+            end
+        end
+
+            -- Previously:
+            -- pipe is outside the left side of the screen
+            -- if pipe.x < -pipe.width then
+            --     table.remove(pipes, k)
+            -- end
+
+            -- Now:
+        for k, pair in pairs(pipePairs) do
+            if pair.remove then
+                table.remove(pipePairs, k)
+            end
+        end
+        
+        love.keyboard.keysPressed = {} -- resetting it to prepare for the next time space is pressed
     end
-    
-    love.keyboard.keysPressed = {} -- resetting it to prepare for the next time space is pressed
 end

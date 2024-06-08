@@ -8,7 +8,7 @@ PIPE_HEIGHT = 288
 PIPE_WIDTH = 70
 
 function Pipe:init(orientation, y)
-    self.x = VIRTUAL_WIDTH
+    self.x = VIRTUAL_WIDTH + 32
     -- self.y = math.random(VIRTUAL_HEIGHT / 4, VIRTUAL_HEIGHT - 20)
     self.y = y
 

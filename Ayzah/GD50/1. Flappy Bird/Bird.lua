@@ -1,9 +1,9 @@
 Bird = Class{}
 
-GRAVITY = 15
+GRAVITY = 7
 
 function Bird:init()
-    self.image = love.graphics.newImage('bird2.png')
+    self.image = love.graphics.newImage('bird.png')
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
 
@@ -22,9 +22,19 @@ function Bird:update(dt)
     self.dy = self.dy + GRAVITY*dt
 
     if love.keyboard.wasPressed('space') then
-        self.dy = -3
+        self.dy = -1
     end
 
     -- apply velocity to position Y
     self.y = self.y + self.dy
+end
+
+
+function Bird:collides(pipe)
+    if ((self.x + 2) + (self.width - 6) >= pipe.x) and (self.x + 4 <= pipe.x + PIPE_WIDTH) then
+        if ((self.y + 2) + (self.height - 4) >= pipe.y) and (self.y + 2 <= pipe.y + PIPE_HEIGHT) then
+            return true
+        end
+    end
+    return false
 end
