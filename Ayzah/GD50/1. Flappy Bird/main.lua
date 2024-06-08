@@ -67,13 +67,25 @@ function love.load()
         fullscreen = false,
         resizable = true
     })
-
+    
     gStateMachine = StateMachine{
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
         ['countdown'] = function() return CountdownState() end
+        }
+        
+    sounds = {
+        ['jump'] = love.audio.newSource('jump.wav', 'static'),
+        ['explosion'] = love.audio.newSource('explosion.wav', 'static'),
+        ['hurt'] = love.audio.newSource('hurt.wav', 'static'),
+        ['score'] = love.audio.newSource('score.wav', 'static'),
+        ['music'] = love.audio.newSource('marios_way.mp3', 'static')
     }
+    
+    sounds['music']:setLooping(true)
+    sounds['music']:play()
+                
     gStateMachine:change('title')
 
     -- initialize the input table

@@ -6,6 +6,7 @@ end
 
 function ScoreState:update(dt)
     if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+        sounds['jump']:play()
         gStateMachine:change('countdown')
     end
 end
