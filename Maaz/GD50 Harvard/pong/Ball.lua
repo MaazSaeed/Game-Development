@@ -30,6 +30,12 @@ end
     Expects a paddle as an argument and returns true or false, depending
     on whether their rectangles overlap.
 ]]
+
+function Ball:getPosition()
+    return {self.x, self.y} 
+end
+
+
 function Ball:collides(paddle)
     -- first, check to see if the left edge of either is farther to the right
     -- than the right edge of the other
