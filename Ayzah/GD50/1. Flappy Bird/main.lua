@@ -13,10 +13,10 @@
 12. Sound effects
         ADDITIONAL/ASSIGNMENT
 13. Mouse Feature
-14. Pause State
-15. 
-16. 
-
+14. Pause Feature
+15. Pipe gaps slightly random
+16. Pipe intervals slightly random
+17. Medal for different score ranges -- not implemented yet
 
 bird image taken from: https://pngtree.com/freepng/cute-blue-and-yellow-bird-sticker-design-clipart-vector_12234090.html
 ]]
@@ -134,6 +134,14 @@ function love.draw()
     gStateMachine:render()
 
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
+
+    if not scrolling then
+        love.graphics.setFont(flappyFont)
+        love.graphics.printf('Paused', 0, VIRTUAL_HEIGHT / 2 - 28, VIRTUAL_WIDTH, 'center')
+        
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf('Press r to resume', 0, VIRTUAL_HEIGHT / 2 + 20, VIRTUAL_WIDTH, 'center')
+    end
     
     push:finish()
 end
@@ -143,6 +151,14 @@ function love.resize(w, h)
 end
 
 function love.update(dt)
+    if love.keyboard.wasPressed('p') then
+        scrolling = false
+    end
+
+    if love.keyboard.wasPressed('r') then
+        scrolling = true
+    end
+
     if scrolling then
         backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
         
