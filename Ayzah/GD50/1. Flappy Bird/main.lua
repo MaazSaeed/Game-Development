@@ -83,8 +83,7 @@ function love.load()
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
-        ['countdown'] = function() return CountdownState() end,
-        ['pause'] = function() return PauseState() end
+        ['countdown'] = function() return CountdownState() end
         }
         
     sounds = {
