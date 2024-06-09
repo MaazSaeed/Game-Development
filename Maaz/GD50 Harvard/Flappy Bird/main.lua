@@ -1,5 +1,8 @@
 push = require 'push'
 
+Class = require 'class'
+
+require 'Bird'
 
 WINDOW_WIDTH = 1280
 WINDOW_HEIGHT = 720
@@ -18,6 +21,8 @@ local GROUND_SCROLL_SPEED = 60
 
 local BACKGROUND_LOOPING_POINT = 413
 
+local bird = Bird()
+
 
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
@@ -31,6 +36,8 @@ function love.load()
         resizable = true
     })
 
+    love.keyboard.keysPressed = {}
+
 end
 
 
@@ -40,10 +47,18 @@ end
 
 
 function love.keypressed(key)
+    love.keyboard.keysPressed[key] = true
+
     if key == 'escape' then
         love.event.quit()
     end
+
 end
+
+function love.keyboard.wasPressed(key)
+    return love.keyboard.keysPressed[key]
+end
+
 
 function love.update(dt)
     backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) 
@@ -51,6 +66,9 @@ function love.update(dt)
     
     groundScroll = (groundScroll + GROUND_SCROLL_SPEED * dt) 
     % VIRTUAL_WIDTH
+
+    bird:update(dt)
+    love.keyboard.keysPressed = {}
 
 end
 
@@ -62,6 +80,7 @@ function love.draw()
     
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
 
+    bird:render()
     push:finish()
 end
 
