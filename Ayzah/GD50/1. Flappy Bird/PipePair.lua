@@ -1,6 +1,6 @@
 PipePair = Class{}
 
-local GAP_HEIGHT = 90 -- a comfortable gap between top and bottom pipes
+-- local GAP_HEIGHT = 90 -- a comfortable gap between top and bottom pipes
 
 function PipePair:init(y)
     self.x = VIRTUAL_WIDTH -- spawns right outside the screen
@@ -9,8 +9,9 @@ function PipePair:init(y)
 
     self.pipes = {
         ['upper'] = Pipe('top', self.y),
-        ['lower'] = Pipe('bottom', self.y + PIPE_HEIGHT + GAP_HEIGHT) 
+        ['lower'] = Pipe('bottom', self.y + PIPE_HEIGHT + math.random(80,100)) 
         -- lower: needs to be shifted down by the height of the pipe above and the gap that needs to be between the two
+        -- gap changed from GAP_HEIGHT to a random value to add more randomness
     }
 
     self.remove = false -- in case the pair is not accidentally removed

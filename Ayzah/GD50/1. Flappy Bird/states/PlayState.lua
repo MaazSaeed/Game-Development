@@ -14,13 +14,15 @@ function PlayState:init(score)
     self.score = 0 or score
 
     self.lastY = -PIPE_HEIGHT + math.random(80) + 20
+
+    self.spawnIn = 3
 end
 
 
 function PlayState:update(dt)
     self.timer = self.timer + dt
 
-    if self.timer > 3 then
+    if self.timer > self.spawnIn then
         -- copied the comments as they were
         -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
         -- no higher than 10 pixels below the top edge of the screen,
@@ -32,6 +34,7 @@ function PlayState:update(dt)
 
         table.insert(self.pipePairs, PipePair(y))
         
+        self.spawnIn = math.random(2,4)
         self.timer = 0
     end
 

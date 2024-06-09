@@ -13,10 +13,10 @@
 12. Sound effects
         ADDITIONAL/ASSIGNMENT
 13. Mouse Feature
-14. Pause State
-15. 
-16. 
-
+14. Pause Feature
+15. Pipe gaps slightly random
+16. Pipe intervals slightly random
+17. Medal for different score ranges -- not implemented yet
 
 bird image taken from: https://pngtree.com/freepng/cute-blue-and-yellow-bird-sticker-design-clipart-vector_12234090.html
 ]]
