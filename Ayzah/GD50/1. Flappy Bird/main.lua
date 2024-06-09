@@ -136,9 +136,6 @@ function love.draw()
     if not scrolling then
         love.graphics.setFont(flappyFont)
         love.graphics.printf('Paused', 0, VIRTUAL_HEIGHT / 2 - 28, VIRTUAL_WIDTH, 'center')
-        
-        love.graphics.setFont(mediumFont)
-        love.graphics.printf('Press r to resume', 0, VIRTUAL_HEIGHT / 2 + 20, VIRTUAL_WIDTH, 'center')
     end
     
     push:finish()
@@ -150,11 +147,8 @@ end
 
 function love.update(dt)
     if love.keyboard.wasPressed('p') then
-        scrolling = false
-    end
-
-    if love.keyboard.wasPressed('r') then
-        scrolling = true
+        scrolling = not scrolling
+        love.keyboard.keysPressed = {}
     end
 
     if scrolling then
