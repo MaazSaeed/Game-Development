@@ -16,9 +16,7 @@
 14. Pause Feature
 15. Pipe gaps slightly random
 16. Pipe intervals slightly random
-17. Medal for different score ranges -- not implemented yet
-
-bird image taken from: https://pngtree.com/freepng/cute-blue-and-yellow-bird-sticker-design-clipart-vector_12234090.html
+17. Medal for different score ranges
 ]]
 
 push = require 'push'
