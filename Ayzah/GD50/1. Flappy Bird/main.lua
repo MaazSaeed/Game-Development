@@ -83,7 +83,8 @@ function love.load()
         ['title'] = function() return TitleScreenState() end,
         ['play'] = function() return PlayState() end,
         ['score'] = function() return ScoreState() end,
-        ['countdown'] = function() return CountdownState() end
+        ['countdown'] = function() return CountdownState() end,
+        ['pause'] = function() return PauseState() end
         }
         
     sounds = {
@@ -134,6 +135,14 @@ function love.draw()
     gStateMachine:render()
 
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
+
+    if not scrolling then
+        love.graphics.setFont(flappyFont)
+        love.graphics.printf('Paused', 0, VIRTUAL_HEIGHT / 2 - 28, VIRTUAL_WIDTH, 'center')
+        
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf('Press r to resume', 0, VIRTUAL_HEIGHT / 2 + 20, VIRTUAL_WIDTH, 'center')
+    end
     
     push:finish()
 end
@@ -143,6 +152,14 @@ function love.resize(w, h)
 end
 
 function love.update(dt)
+    if love.keyboard.wasPressed('p') then
+        scrolling = false
+    end
+
+    if love.keyboard.wasPressed('r') then
+        scrolling = true
+    end
+
     if scrolling then
         backgroundScroll = (backgroundScroll + BACKGROUND_SCROLL_SPEED * dt) % BACKGROUND_LOOPING_POINT
         
