@@ -4,7 +4,18 @@
 3. Create parallax scrolling (variables and love.update)
 4. Add Bird class
 5. Introduce gravity using dy
-
+6. Introduce bottom pipe
+7. Introduce top pipe as a pair
+8. Collision Update
+9. State Machine
+10. Scoring
+11. Countdown update
+12. Sound effects
+        ADDITIONAL/ASSIGNMENT
+13. Mouse Feature
+14. Pause State
+15. 
+16. 
 
 
 bird image taken from: https://pngtree.com/freepng/cute-blue-and-yellow-bird-sticker-design-clipart-vector_12234090.html
@@ -90,6 +101,7 @@ function love.load()
 
     -- initialize the input table
     love.keyboard.keysPressed = {}
+    love.mouse.buttonsPressed = {}
 end
 
 function love.keypressed(key)
@@ -104,6 +116,14 @@ end
 
 function love.keyboard.wasPressed(key)
     return love.keyboard.keysPressed[key] -- returns true or false
+end
+
+function love.mousepressed(x, y, button)
+    love.mouse.buttonsPressed[button] = true
+end
+
+function love.mouse.wasPressed(button)
+    return love.mouse.buttonsPressed[button]
 end
 
 function love.draw()
@@ -131,5 +151,7 @@ function love.update(dt)
         gStateMachine:update(dt)
     
         love.keyboard.keysPressed = {} -- resetting it to prepare for the next time space is pressed
+        
+        love.mouse.buttonsPressed = {}
     end
 end
