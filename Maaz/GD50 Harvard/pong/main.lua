@@ -233,6 +233,8 @@ function love.update(dt)
     -- paddles can move no matter what state we're in
     --
     -- player 1
+    --[[
+    
     if love.keyboard.isDown('w') then
         player1.dy = -PADDLE_SPEED
     elseif love.keyboard.isDown('s') then
@@ -240,6 +242,20 @@ function love.update(dt)
     else
         player1.dy = 0
     end
+    ]]--
+
+    ballPosition = ball:getPosition()
+    paddlePosition = player1:getPosition()
+
+    -- steer vector = [xp - xb, yp - yb], the paddle's x position is constant e.g., 0
+    steer = {ballPosition[1], ballPosition[2] - paddlePosition[2]}
+    steerMag = mag(steer)
+    theta = math.atan(steer[2] / (steer[1] ~= 0 and steer[1] or 1)) -- to avoid divison by zero
+    steerY = math.sin(theta) * steerMag
+    local scalar = 7
+    player1.dy = ball.dx < 0 and steerY * scalar or 0
+
+
 
     -- player 2
     if love.keyboard.isDown('up') then
@@ -367,3 +383,11 @@ function displayFPS()
     love.graphics.setColor(0, 1, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 10, 10)
 end
+
+
+function mag(vec2)
+    local x = vec2[1]
+    local y = vec2[2] 
+    return math.sqrt(x * x + y * y)
+end
+
