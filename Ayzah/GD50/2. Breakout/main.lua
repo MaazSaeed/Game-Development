@@ -1,5 +1,14 @@
 require 'src/Dependencies'
 
+--[[
+Credit for graphics (amazing work!):
+    https://opengameart.org/users/buch
+
+    Credit for music (great loop):
+    http://freesound.org/people/joshuaempyre/sounds/251461/
+    http://www.soundcloud.com/empyreanma
+]]
+
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
     
@@ -22,6 +31,8 @@ function love.load()
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
         ['particle'] = love.graphics.newImage('graphics/particle.png')
     }
+
+    gFrames = {['paddles'] = GenerateQuadsPaddles(gTextures['main'])}
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
         vsync = true,
@@ -48,7 +59,8 @@ function love.load()
     }
 
     gStateMachine = StateMachine {
-        ['start'] = function() return StartState() end
+        ['start'] = function() return StartState() end,
+        ['play'] = function() return PlayState() end
     }
     gStateMachine:change('start')
 
