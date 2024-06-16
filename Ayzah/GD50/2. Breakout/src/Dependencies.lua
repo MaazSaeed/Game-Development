@@ -13,3 +13,4 @@ require 'src/states/PlayState'
 require 'src/Util'
 
 require 'src/Paddle'
+require 'src/Ball'
