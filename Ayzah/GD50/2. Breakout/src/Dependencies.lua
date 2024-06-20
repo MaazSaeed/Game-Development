@@ -14,3 +14,5 @@ require 'src/Util'
 
 require 'src/Paddle'
 require 'src/Ball'
+require 'src/LevelMaker'
+require 'src/Brick'

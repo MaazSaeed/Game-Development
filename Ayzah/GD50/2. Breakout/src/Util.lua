@@ -1,5 +1,5 @@
 function GenerateQuads(atlas, tilewidth, tileheight)
-    local sheetWidth = atlas:getWidth() / titlewidth
+    local sheetWidth = atlas:getWidth() / tilewidth
     local sheetHeight = atlas:getHeight() / tileheight
 
     local sheetCounter = 1
@@ -9,7 +9,7 @@ function GenerateQuads(atlas, tilewidth, tileheight)
         for x = 0, sheetWidth - 1 do
             spritesheet[sheetCounter] =
                 love.graphics.newQuad(x * tilewidth, y * tileheight,
-                tileheight, atlas:getDimensions())
+                tilewidth, tileheight, atlas:getWidth(), atlas:getHeight())
             sheetCounter = sheetCounter + 1
         end
     end
@@ -36,15 +36,15 @@ function GenerateQuadsPaddles(atlas)
 
     for i = 0, 3 do
         quads[counter] = love.graphics.newQuad(x, y, 32, 16,
-            atlas:getDimensions())
+            atlas:getWidth(), atlas:getHeight())
         counter = counter + 1
 
         quads[counter] = love.graphics.newQuad(x + 32, y, 64, 16,
-            atlas:getDimensions())
+            atlas:getWidth(), atlas:getHeight())
         counter = counter + 1
 
         quads[counter] = love.graphics.newQuad(x + 64, y, 96, 16,
-            atlas:getDimensions())
+            atlas:getWidth(), atlas:getHeight())
         counter = counter + 1
 
         x = 0
@@ -63,7 +63,7 @@ function GenerateQuadsBalls(atlas)
     local quads = {}
 
     for i = 0, 3 do
-        quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+        quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getWidth(), atlas:getHeight())
         x = x + 8
         counter = counter + 1
     end
@@ -71,7 +71,7 @@ function GenerateQuadsBalls(atlas)
     y = 56
 
     for i = 0, 2 do
-        quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+        quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getWidth(), atlas:getHeight())
         x = x + 8
         counter = counter + 1
     end
@@ -79,3 +79,6 @@ function GenerateQuadsBalls(atlas)
     return quads
 end
 
+function GenerateQuadsBricks(atlas)
+    return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+end
