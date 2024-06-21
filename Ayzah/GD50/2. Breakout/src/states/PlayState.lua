@@ -42,6 +42,8 @@ function PlayState:update(dt)
     end
 
     for k, brick in pairs(self.bricks) do
+        brick:update(dt)
+        
         if brick.inPlay and self.ball:collides(brick) then
             
             self.score = self.score + (brick.tier * 200 + brick.color * 25)
@@ -58,7 +60,7 @@ function PlayState:update(dt)
 
             elseif self.ball.y < brick.y then
                 self.ball.dy = -self.ball.dy
-                self.ball.y = brick.y - self.ball.height
+                self.ball.y = brick.height - self.ball.height
 
             else
                 self.ball.dy = -self.ball.dy
@@ -66,7 +68,6 @@ function PlayState:update(dt)
             end
 
             self.ball.dy = self.ball.dy * 1.02
-
             break
 
         end
@@ -101,6 +102,7 @@ end
 function PlayState:render()
     for k, brick in pairs(self.bricks) do
         brick:render()
+        brick:renderParticles()
     end
 
     self.paddle:render()
