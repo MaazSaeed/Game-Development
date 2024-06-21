@@ -67,7 +67,8 @@ function love.load()
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end,
         ['serve'] = function() return ServeState() end,
-        ['game-over'] = function() return GameOverState() end
+        ['game-over'] = function() return GameOverState() end,
+        ['victory'] = function() return VictoryState() end
     }
     gStateMachine:change('start')
 
@@ -131,7 +132,7 @@ function renderHealth(health)
     end
 end
 
-function renderScore()
+function renderScore(score)
     love.graphics.setFont(gFonts['small'])
     love.graphics.print('Score: ', VIRTUAL_WIDTH - 60, 5)
     love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
