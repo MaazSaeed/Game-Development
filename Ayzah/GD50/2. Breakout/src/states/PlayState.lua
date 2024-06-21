@@ -55,11 +55,11 @@ function PlayState:update(dt)
 
             elseif self.ball.y < brick.y then
                 self.ball.dy = -self.ball.dy
-                self.ball.y = brick.y -- - self.ball.height
+                self.ball.y = brick.y - self.ball.height
 
             else
                 self.ball.dy = -self.ball.dy
-                self.ball.y = brick.y -- + brick.height
+                self.ball.y = brick.y + brick.height
             end
 
             self.ball.dy = self.ball.dy * 1.02
