@@ -10,7 +10,17 @@ y = rsinθ
  
 2.	Suppose we have two vectors u, v expressed in polar coordinates u = (r,θ) and v = (s,φ). How do we add them (assuming we also want the sum in polar coordinates)?
 Convert rom Polar to Cartesian Coordinates:
-For u = (r, θ):
+
+<p align="center">
+For U = (r, θ):
+Ux = rcosθ
+Uy = rsinθ
+
+For V = (s, φ)
+Vx = scosφ
+Vy = ssinφ
+
+</p>
 
 
 3.	Suppose you have a vector x in the plane with components a1, a2, expressed in the basis u1, u2. How do you write this vector in the standard basis e1 = (1,0), e2 = (0,1)? Do not assume that u1 and u2 are orthonormal.
