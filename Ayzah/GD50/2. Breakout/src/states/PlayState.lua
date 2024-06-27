@@ -7,6 +7,7 @@ function PlayState:enter(params)
     self.score = params.score
     self.ball = params.ball
     self.level = params.level
+    self.highScores = params.highScores
 
     self.ball.dx = math.random(-200, 200)
     self.ball.dy = math.random(-50, -60)
@@ -59,22 +60,27 @@ function PlayState:update(dt)
                     paddle = self.paddle,
                     health = self.health,
                     score = self.score,
-                    ball = self.ball
+                    ball = self.ball,
+                    highScores = self.highScores
                 })
             end
 
+            -- ball hits the left side of the brick 
             if self.ball.x + 2 and self.ball.dx > 0 then
                 self.ball.dx = -self.ball.dx
                 self.ball.x = brick.x - self.ball.width
 
+            -- ball hits the right side of the brick
             elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx < 0 then
                 self.ball.dx = -self.ball.dx
                 self.ball.x = brick.x + brick.width
 
+            -- ball hits the bottom of the brick
             elseif self.ball.y < brick.y then
                 self.ball.dy = -self.ball.dy
                 self.ball.y = brick.y - self.ball.height
 
+            -- ball hits the right side of the brick
             else
                 self.ball.dy = -self.ball.dy
                 self.ball.y = brick.y + brick.height
@@ -94,7 +100,8 @@ function PlayState:update(dt)
         if self.health == 0 then
             gStateMachine:change('game-over', 
         {
-            score = self.score
+            score = self.score,
+            highScores = self.highScores
         })
         else
             gStateMachine:change('serve', 
@@ -103,7 +110,8 @@ function PlayState:update(dt)
                 bricks = self.bricks,
                 health = self.health,
                 score = self.score,
-                level = self.level
+                level = self.level,
+                highScores = self.highScores
             })
         end
     end
