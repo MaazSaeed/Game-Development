@@ -84,6 +84,9 @@ function love.load()
         highScores = initial_highScores
     })
 
+    gSounds['music']:play()
+    gSounds['music']:setLooping(true)
+    
     love.keyboard.keysPressed  = {}
 end
 
