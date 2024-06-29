@@ -43,7 +43,6 @@ function BeginGameState:enter(def)
     end)
 end
 
-
 function BeginGameState:update(dt) 
     Timer.update(dt)
 end
