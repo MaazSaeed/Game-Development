@@ -147,6 +147,17 @@ end
 function Board:getFallingTiles()
     local tweens = {}
 
+--[[
+If a Space is Encountered (space is true):
+If the current tile is not nil (if tile then), it means we have a tile above the space.
+Move the tile down to the empty space (self.tiles[spaceY][x] = tile), update its gridY 
+property (tile.gridY = spaceY), and set the original position to nil (self.tiles[y][x] = nil).
+Add a tween animation to move the tile to its new position (tweens[tile] = { y = (tile.gridY - 1) * 32 }).
+Reset the space flag and set y to spaceY to continue checking for spaces from the new position.
+If No Space is Encountered (space is false):
+If the current tile is nil, set the space flag to true and record the spaceY position.
+]]
+
     for x = 1, 8 do
         local space = false
         local spaceY = 0
@@ -159,9 +170,77 @@ function Board:getFallingTiles()
 
             if space then
                 -- if current tile is not a space, bring down to lowest space
-                if tile then
+                if tile then -- means we have a tile above the space
 
-                    self.tiles[spaceY][x]
+                    -- move down the tile and update grid
+                    self.tiles[spaceY][x] = tile
+                    tile.gridY = spaceY
+
+                    -- set original position set to nil
+                    self.tiles[y][x] = nil
+
+                    -- tween from previous position to new one
+                    tweens[tile] = {
+                        y = (tile.gridY - 1) * 32
+                    }
+
+                    -- reset the space flag and set y to spaceY 
+                    -- to continue checking for spaces from the new position
+                    space = false
+                    y = spaceY
+
+                    -- set this back to 0 so we know we don't have an active space
+                    spaceY = 0
+                end
+                
+            elseif tile == nil then
+                space = true
+
+                
+                if spaceY == 0 then
+                    spaceY = y
+                end
+
+            end
+
+            y = y - 1
+        end
+    end
+
+
+--[[
+After ensuring all existing tiles have fallen into place, the function iterates over each column again.
+For each position in the column, if the tile is nil, it means there's an empty space that needs to be filled with a new tile.
+A new tile is created with a random color and variety, initially positioned above the board (tile.y = -32).
+The new tile is placed in the board (self.tiles[y][x] = tile), and a tween animation is added to make it fall into place 
+(tweens[tile] = { y = (tile.gridY - 1) * 32 }).
+]]
+
+for x = 1, 8 do
+    for y = 8, 1, -1 do
+        local tile = self.tiles[y][x]
+
+        if not tile then
+
+            local tile = Tile(x, y, math.random(18), math.random(6))
+            tile.y = -32
+            self.tiles[y][x] = tile
+
+            tweens[tile] = {
+                y = (tile.gridY - 1) * 32
+                }
+            end
+        end
+    end
+    return tweens
+end
 
 
 
+function Board:render()
+    for y = 1, #self.tiles do
+        for x = 1, #self.tiles[1] do
+            self.tiles[y][x]:render(self.x, self.y)
+        end
+    end
+end
