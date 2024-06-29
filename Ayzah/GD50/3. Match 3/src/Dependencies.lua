@@ -1,8 +1,8 @@
-Class = require 'lib/class'
+Class = require 'src/lib/class'
 
-push = require 'lib/push'
+push = require 'src/lib/push'
 
-Timer = requre 'lib/knife.timer'
+Timer = require 'src/lib/knife.timer'
 
 require 'src/Utils'
 require 'src/StateMachine'
@@ -10,25 +10,25 @@ require 'src/StateMachine'
 require 'src/states/BaseState'
 require 'src/states/BeginGameState'
 require 'src/states/GameOverState'
-require 'src/states/ServeState'
+require 'src/states/PlayState'
 require 'src/states/StartState'
 
 require 'src/Tile'
 require 'src/Board'
 
 gSounds = {
-    ['music'] = love.audio.newSource('sounds/music3.mp3', 'static'),
-    ['select'] = love.audio.newSource('sounds/select.wav', 'static'),
-    ['error'] = love.audio.newSource('sounds/error.wav', 'static'),
-    ['match'] = love.audio.newSource('sounds/match.wav', 'static'),
-    ['clock'] = love.audio.newSource('sounds/clock.wav', 'static'),
-    ['game-over'] = love.audio.newSource('sounds/game-over.wav', 'static'),
-    ['next-level'] = love.audio.newSource('sounds/next-level.wav', 'static')
+    ['music'] = love.audio.newSource('src/sounds/music3.mp3', 'static'),
+    ['select'] = love.audio.newSource('src/sounds/select.wav', 'static'),
+    ['error'] = love.audio.newSource('src/sounds/error.wav', 'static'),
+    ['match'] = love.audio.newSource('src/sounds/match.wav', 'static'),
+    ['clock'] = love.audio.newSource('src/sounds/clock.wav', 'static'),
+    ['game-over'] = love.audio.newSource('src/sounds/game-over.wav', 'static'),
+    ['next-level'] = love.audio.newSource('src/sounds/next-level.wav', 'static')
 }
 
 gTextures = {
-    ['main'] = love.graphics.newImage('graphics/match3.png'),
-    ['background'] = love.graphics.newImage('graphics/background.png')
+    ['main'] = love.graphics.newImage('src/graphics/match3.png'),
+    ['background'] = love.graphics.newImage('src/graphics/background.png')
 }
 
 gFrames = {
@@ -39,7 +39,7 @@ gFrames = {
 }
 
 gFonts = {
-    ['small'] = love.graphics.newFont('fonts/font.ttf', 8),
-    ['medium'] = love.graphics.newFont('fonts/font.ttf', 16),
-    ['large'] = love.graphics.newFont('fonts/font.ttf', 32)
+    ['small'] = love.graphics.newFont('src/fonts/font.ttf', 8),
+    ['medium'] = love.graphics.newFont('src/fonts/font.ttf', 16),
+    ['large'] = love.graphics.newFont('src/fonts/font.ttf', 32)
 }

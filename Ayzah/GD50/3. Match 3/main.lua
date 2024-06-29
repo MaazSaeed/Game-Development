@@ -38,10 +38,10 @@ function love.load()
     -- for background scrolling along x axis
     backgroundX = 0
 
-    love.keyboad.keysPressed = {}
+    love.keyboard.keysPressed = {}
 end
 
-function love.keyPressed(key)
+function love.keypressed(key)
     love.keyboard.keysPressed[key] = true
 end
 
@@ -50,7 +50,7 @@ function love.resize(w, h)
 end
 
 function love.keyboard.wasPressed(key)
-    return love.keyPressed[key]
+    return love.keyboard.keysPressed[key]
 end
 
 function love.update(dt)
@@ -65,10 +65,10 @@ function love.update(dt)
     love.keyboard.keysPressed = {}
 end
 
-function love.render()
+function love.draw()
     push:start()
 
-    love.graphics.draw(gTextures['background'], backgorundX, 0)
+    love.graphics.draw(gTextures['background'], backgroundX, 0)
 
     gStateMachine:render()
     push:finish()
