@@ -58,7 +58,8 @@ How do you know if the intersection point is contained in the segments?
     If t and s are between 0 and 1, that means the intersection takes place between the start and the end points of the line segments.
 
 ### Homogeneous approach
-Point as line in homogeneous coordinates
+
+![alt text](image-10.png)
 
 There's a much simpler way to compute the intersection of two lines, using this "one weird trick" called homogeneous coordinates. The basic idea is to turn every point in 2D into a whole line in 3D. Certain computations on these 3D lines are then much easier than the corresponding calculations on points in 2D. More precisely, any point x in 2D gets associated with all points of the form X = (cx,c), where c is any nonzero constant. If we vary c, we see that these points trace out a line in 3D. Often, we let c=1 and use (x,1) as the canonical representative, corresponding to a point in the 2D plane at height 1 above the origin.
 
