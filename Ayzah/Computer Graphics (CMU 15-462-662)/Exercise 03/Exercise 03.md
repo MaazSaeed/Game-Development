@@ -47,11 +47,11 @@ A different way to describe a line is to think of it as a ray r(t) = o + td that
 
 Write down a ray f(t) along the segment (a0,a1), and another ray g(s) along the segment (b0,b1).
 
-![alt text](image-4.png)
+<img src="image-4.png" alt="alt text" width="50%">
 
 What linear system can you solve to determine the intersection? Give the entries of this system explicitly. To obtain the final intersection point x, what else do you have to do beyond just solving the linear system?
 
-![alt text](image-5.png)
+<img src="image-5.png" alt="alt text" width="50%">
 
 How do you know if the intersection point is contained in the segments?
 
@@ -63,7 +63,8 @@ Point as line in homogeneous coordinates
 There's a much simpler way to compute the intersection of two lines, using this "one weird trick" called homogeneous coordinates. The basic idea is to turn every point in 2D into a whole line in 3D. Certain computations on these 3D lines are then much easier than the corresponding calculations on points in 2D. More precisely, any point x in 2D gets associated with all points of the form X = (cx,c), where c is any nonzero constant. If we vary c, we see that these points trace out a line in 3D. Often, we let c=1 and use (x,1) as the canonical representative, corresponding to a point in the 2D plane at height 1 above the origin.
 
 If we consider all 2D points along the 2D line through a0 and a1, what shape do all the corresponding 3D points describe in 3D? How about b0 and b1?
-![alt text](image-6.png)
+
+<img src="image-6.png" alt="alt text" width="50%">
 
 Geometrically, which line in 3D corresponds to our 2D intersection point x?
 
@@ -75,7 +76,8 @@ How can we compute this line explicitly, using only the homogeneous coordinates 
 
 3. Find the intersection of the lines: Compute the cross product of the two lines in homogeneous coordinates to find the intersection point, which will be the direction vector of the 3D line.
 
-![alt text](image-7.png)
-![alt text](image-8.png)
-![alt text](image-9.png)
+<img src="image-7.png" alt="alt text" width="50%">
+<img src="image-8.png" alt="alt text" width="50%">
+<img src="image-9.png" alt="alt text" width="50%">
+
 ​
