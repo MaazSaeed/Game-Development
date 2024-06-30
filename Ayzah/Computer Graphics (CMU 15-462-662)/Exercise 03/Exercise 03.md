@@ -29,7 +29,7 @@ Write down an affine equation that characterizes all points x on the line throug
 
 Write down a linear system Ax=b for the intersection point x. You do not need to solve this system, but should give explicit expressions for the entries of the matrix A and the vector b (so that you could in principle hand it off to a linear solver).
 
-![alt text](image-1.png)
+![alt text](image-1.png){ width=50% }
 
 What does it mean geometrically if the system does not have full rank?
 
