@@ -4,15 +4,16 @@ function BeginGameState:init(def)
     -- start transition alpha at full to fade in
     self.transitionAlpha = 1
 
-    -- board on the right side of screen
-    self.board = Board(VIRTUAL_WIDTH - 272, 16)
-
     -- start level # label off-screen
     self.levelLabelY = -64
 end
 
 function BeginGameState:enter(def)
     self.level = def.level
+
+        -- board on the right side of screen
+        self.board = Board(VIRTUAL_WIDTH - 272, 16, self.level)
+
 
     -- 1. fade out in one second
     Timer.tween(1, {

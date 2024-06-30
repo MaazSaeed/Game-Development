@@ -1,3 +1,9 @@
+--[[ 
+    (Done)    1. Implement time addition on matches, such that scoring a match extends the timer by 1 second per tile in a match. 
+    This one will probably be the easiest! Currently, there’s code that calculates the amount of points you’ll want 
+    to award the player when it calculates any matches in PlayState:calculateMatches, so start there!
+]]
+
 PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
@@ -34,7 +40,7 @@ end
 
 function PlayState:enter(params)
     self.level = params.level
-    self.board = params.board or Board(VIRTUAL_WIDTH - 272, 16)
+    self.board = params.board or Board(VIRTUAL_WIDTH - 272, 16, self.level)
     self.score = params.score or 0
     self.scoreGoal = self.level * 1.25 * 1000 -- score needed to get to the next level
 end
@@ -104,8 +110,11 @@ function PlayState:update(dt)
                 gSounds['error']:play()
                 self.highlightedTile = nil
 
-            -- swap positions of tiles and show that by tweening
+            -- match has been made, swap positions of tiles and show that by tweening
             else
+                -- update timer to add a second
+                self.timer = self.timer + 1
+
                 -- swap grid positions of tiles
                 local tempX = self.highlightedTile.gridX
                 local tempY = self.highlightedTile.gridY
@@ -149,7 +158,7 @@ function PlayState:calculateMatches()
 
         -- add score for each match
         for k, match in pairs(matches) do
-            self.score = self.score + #match * 50
+            self.score = self.score + self.board:calculatePoints()
         end
 
         self.board:removeMatches()

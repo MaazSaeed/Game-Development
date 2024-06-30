@@ -63,3 +63,16 @@ function print_r(t)
     end
     print()
 end
+
+function love.graphics.roundedRectangle(mode, x, y, width, height, radius)
+    -- draw the main rectangle without the corners
+    love.graphics.rectangle(mode, x + radius, y, width - 2 * radius, height)
+    love.graphics.rectangle(mode, x, y + radius, radius, height - 2 * radius)
+    love.graphics.rectangle(mode, x + width - radius, y + radius, radius, height - 2 * radius)
+
+    -- draw the corners
+    love.graphics.arc(mode, x + radius, y + radius, radius, math.pi, 3 * math.pi / 2)
+    love.graphics.arc(mode, x + width - radius, y + radius, radius, -math.pi / 2, 0)
+    love.graphics.arc(mode, x + radius, y + height - radius, radius, math.pi / 2, math.pi)
+    love.graphics.arc(mode, x + width - radius, y + height - radius, radius, 0, math.pi / 2)
+end

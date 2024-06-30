@@ -1,9 +1,36 @@
+--[[
+    2. Ensure Level 1 starts just with simple flat blocks (the first of each color in the sprite sheet), 
+    with only later levels generating the blocks with patterns on them (like the triangle, cross, etc.). 
+    These should be worth more points, at your discretion. This one will be a little trickier than the last step 
+    (but only slightly); right now, random colors and varieties are chosen in Board:initializeTiles, but perhaps 
+    we could pass in the level variable from the PlayState when a Board is created (specifically in PlayState:enter), 
+    and then let that influence what variety is chosen?
+
+    3. Create random shiny versions of blocks that will destroy an entire row on match, granting points for each 
+    block in the row. This one will require a little more work! We’ll need to modify the Tile class most likely to 
+    hold some kind of flag to let us know whether it’s shiny and then test for its presence in Board:calculateMatches! 
+    Shiny blocks, note, should not be their own unique entity, but should be “special” versions of the colors already 
+    in the game that override the basic rules of what happens when you match three of that color.
+
+    4. Only allow swapping when it results in a match. If there are no matches available to perform, reset the board. 
+    There are multiple ways to try and tackle this problem; choose whatever way you think is best! The simplest is 
+    probably just to try and test for Board:calculateMatches after a swap and just revert back if there is no match! 
+    The harder part is ensuring that potential matches exist; for this, the simplest way is most likely to pretend swap 
+    everything left, right, up, and down, using essentially the same reverting code as just above! However, be mindful 
+    that the current implementation uses all of the blocks in the sprite sheet, which mathematically makes it highly 
+    unlikely we’ll get a board with any viable matches in the first place; in order to fix this, be sure to instead 
+    only choose a subset of tile colors to spawn in the Board (8 seems like a good number, though tweak to taste!) 
+    before implementing this algorithm!
+
+]]
+
 Board = Class{}
 
-function Board:init(x, y)
+function Board:init(x, y, level)
     self.x = x
     self.y = y
-    self.match = {}
+    self.level = level
+    self.matches = {}
 
     self:initializeTiles()
 end
@@ -11,114 +38,133 @@ end
 function Board:initializeTiles()
     self.tiles = {}
 
+    maxVariety = math.min(self.level, 6)  -- Ensure maxVariety is between 1 and 6
+
     for tileY = 1, 8 do
-        -- initialize empty table
         table.insert(self.tiles, {})
 
         for tileX = 1, 8 do
-            -- create new tile at X, Y with random colour and variety
-            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(18), math.random(6)))
+            local shiny = math.random(1, 10) == 1
+            local variety = math.random(1, maxVariety)  -- Set variety based on the level
+            table.insert(self.tiles[tileY], Tile(tileX, tileY, math.random(8), variety, shiny))
         end
     end
 
     while self:calculateMatches() do
-        self.initializeTiles() -- in case the initialized board already 
+        self:initializeTiles() -- in case the initialized board already has matches
     end
 end
 
 function Board:calculateMatches()
     local matches = {}
-    local matches = {}
+    local shiny_bool = false
 
-    local matchNum = 1
-
+    -- horizontal matches first
     for y = 1, 8 do
         local colorToMatch = self.tiles[y][1].color
 
-    -- how many of the same color blocks in a row we've found
-    local matchNum = 1
+        local matchNum = 1
 
-    -- horizontal matches first
         for x = 2, 8 do
-            -- colour match
             if self.tiles[y][x].color == colorToMatch then
                 matchNum = matchNum + 1
             else
-                -- different color
-                colorToMatch = self.tiles[y][x].color
-
-                -- if there are sufficient matches, add each tile to the match that's in that match
                 if matchNum >= 3 then
                     local match = {}
 
                     for x2 = x - 1, x - matchNum, -1 do
                         table.insert(match, self.tiles[y][x2])
                     end
+
+                    if self:containsShiny(match) then
+                        match = {}
+                        for col = 1, 8 do
+                            table.insert(match, self.tiles[y][col])
+                        end
+                    end
+
                     table.insert(matches, match)
                 end
 
+                colorToMatch = self.tiles[y][x].color
                 matchNum = 1
 
-                -- don't check last two if the colour has been changed
                 if x >= 7 then
                     break
                 end
             end
         end
 
-        -- in case the latest colour is the same, keep checking till the end
-        -- by using a backwards approach
         if matchNum >= 3 then
             local match = {}
 
             for x = 8, 8 - matchNum + 1, -1 do
                 table.insert(match, self.tiles[y][x])
             end
+
+            if self:containsShiny(match) then
+                match = {}
+                for col = 1, 8 do
+                    table.insert(match, self.tiles[y][col])
+                end
+            end
+
             table.insert(matches, match)
         end
     end
 
-    --vertical matches
+    -- vertical matches
     for x = 1, 8 do
         local colorToMatch = self.tiles[1][x].color
 
-        matchNum = 1
+        local matchNum = 1
 
-        -- every vertical tile
         for y = 2, 8 do
             if self.tiles[y][x].color == colorToMatch then
                 matchNum = matchNum + 1
             else
-                colorToMatch = self.tiles[y][x].color
-
-                if matchNum >=3 then
+                if matchNum >= 3 then
                     local match = {}
 
                     for y2 = y - 1, y - matchNum, -1 do
                         table.insert(match, self.tiles[y2][x])
                     end
+                    
+                    if self:containsShiny(match) then
+                        match = {}
+                        for row = 1, 8 do
+                            table.insert(match, self.tiles[row][x])
+                        end
+                    end
 
                     table.insert(matches, match)
                 end
 
+                colorToMatch = self.tiles[y][x].color
                 matchNum = 1
 
-                if y >=7 then
+                if y >= 7 then
                     break
                 end
             end
         end
 
-        -- in case the ending also has matching tiles
-        if matchNum >=3 then
+        if matchNum >= 3 then
             local match = {}
 
             for y = 8, 8 - matchNum + 1, -1 do
-                table.insert(match, self.tiles[y][X])
+                table.insert(match, self.tiles[y][x])
+            end
+
+            if self:containsShiny(match) then
+                match = {}
+                for row = 1, 8 do
+                    table.insert(match, self.tiles[row][x])
+                end
             end
 
             table.insert(matches, match)
-        end 
+        end
     end
 
     self.matches = matches
@@ -126,11 +172,15 @@ function Board:calculateMatches()
     return #self.matches > 0 and self.matches or false
 end
 
+function Board:calculatePoints()
+    for k, match in pairs(self.matches) do
+        for k, tile in pairs(match) do
+            points = 50 *self.tiles[tile.gridY][tile.gridX].variety
+        end
+    end
+    return points
+end
 
---[[
-    Remove the matches from the Board by just setting the Tile slots within
-    them to nil, then setting self.matches to nil.
-]]
 function Board:removeMatches()
     for k, match in pairs(self.matches) do
         for k, tile in pairs(match) do
@@ -140,23 +190,8 @@ function Board:removeMatches()
     self.matches = nil
 end
 
---[[
-    Shifts down all of the tiles that now have spaces below them, then returns a table that
-    contains tweening information for these new tiles.
-]]
 function Board:getFallingTiles()
     local tweens = {}
-
---[[
-If a Space is Encountered (space is true):
-If the current tile is not nil (if tile then), it means we have a tile above the space.
-Move the tile down to the empty space (self.tiles[spaceY][x] = tile), update its gridY 
-property (tile.gridY = spaceY), and set the original position to nil (self.tiles[y][x] = nil).
-Add a tween animation to move the tile to its new position (tweens[tile] = { y = (tile.gridY - 1) * 32 }).
-Reset the space flag and set y to spaceY to continue checking for spaces from the new position.
-If No Space is Encountered (space is false):
-If the current tile is nil, set the space flag to true and record the spaceY position.
-]]
 
     for x = 1, 8 do
         local space = false
@@ -165,77 +200,54 @@ If the current tile is nil, set the space flag to true and record the spaceY pos
         local y = 8
 
         while y >= 1 do
-            -- if last tile is a space
             local tile = self.tiles[y][x]
 
             if space then
-                -- if current tile is not a space, bring down to lowest space
-                if tile then -- means we have a tile above the space
-
-                    -- move down the tile and update grid
+                if tile then
                     self.tiles[spaceY][x] = tile
                     tile.gridY = spaceY
-
-                    -- set original position set to nil
                     self.tiles[y][x] = nil
 
-                    -- tween from previous position to new one
                     tweens[tile] = {
                         y = (tile.gridY - 1) * 32
                     }
 
-                    -- reset the space flag and set y to spaceY 
-                    -- to continue checking for spaces from the new position
                     space = false
                     y = spaceY
-
-                    -- set this back to 0 so we know we don't have an active space
                     spaceY = 0
                 end
-                
             elseif tile == nil then
                 space = true
 
-                
                 if spaceY == 0 then
                     spaceY = y
                 end
-
             end
 
             y = y - 1
         end
     end
 
+    for x = 1, 8 do
+        for y = 8, 1, -1 do
+            local tile = self.tiles[y][x]
 
---[[
-After ensuring all existing tiles have fallen into place, the function iterates over each column again.
-For each position in the column, if the tile is nil, it means there's an empty space that needs to be filled with a new tile.
-A new tile is created with a random color and variety, initially positioned above the board (tile.y = -32).
-The new tile is placed in the board (self.tiles[y][x] = tile), and a tween animation is added to make it fall into place 
-(tweens[tile] = { y = (tile.gridY - 1) * 32 }).
-]]
+            if not tile then
+                local shiny = math.random(1, 10) == 1
+                local variety = math.random(1, maxVariety)  -- Ensure new tiles follow the level variety rule
+                local tile = Tile(x, y, math.random(8), variety, shiny)
+                tile.y = -32
+                self.tiles[y][x] = tile
 
-for x = 1, 8 do
-    for y = 8, 1, -1 do
-        local tile = self.tiles[y][x]
-
-        if not tile then
-
-            local tile = Tile(x, y, math.random(18), math.random(6))
-            tile.y = -32
-            self.tiles[y][x] = tile
-
-            tweens[tile] = {
-                y = (tile.gridY - 1) * 32
+                tweens[tile] = {
+                    y = (tile.gridY - 1) * 32
                 }
             end
         end
     end
+
     return tweens
 end
-
-
 
 function Board:render()
     for y = 1, #self.tiles do
@@ -243,4 +255,13 @@ function Board:render()
             self.tiles[y][x]:render(self.x, self.y)
         end
     end
+end
+
+function Board:containsShiny(match)
+    for k, tile in pairs(match) do
+        if tile.shiny then
+            return true
+        end
+    end
+    return false
 end
