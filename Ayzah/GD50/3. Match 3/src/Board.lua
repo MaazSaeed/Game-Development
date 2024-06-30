@@ -114,7 +114,7 @@ function Board:calculateMatches()
             local match = {}
 
             for y = 8, 8 - matchNum + 1, -1 do
-                table.insert(match, self.tilespy[y][X])
+                table.insert(match, self.tiles[y][X])
             end
 
             table.insert(matches, match)
