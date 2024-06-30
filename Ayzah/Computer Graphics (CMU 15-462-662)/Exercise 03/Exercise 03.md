@@ -37,7 +37,7 @@ What does it mean geometrically if the system does not have full rank?
 
 Suppose the linear system has full rank, and the solver produces the intersection point x. How can we check whether it is contained in the two segments?
 
-![alt text](image-2.png){ width=50% }
+![alt text](image-2.png)
 
 ### Explicit approach
 
