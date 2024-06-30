@@ -47,11 +47,11 @@ A different way to describe a line is to think of it as a ray r(t) = o + td that
 
 Write down a ray f(t) along the segment (a0,a1), and another ray g(s) along the segment (b0,b1).
 
-<img src="image-4.png" alt="alt text" width="50%">
+<img src="image-4.png" alt="alt text" width="75%">
 
 What linear system can you solve to determine the intersection? Give the entries of this system explicitly. To obtain the final intersection point x, what else do you have to do beyond just solving the linear system?
 
-<img src="image-5.png" alt="alt text" width="50%">
+<img src="image-5.png" alt="alt text" width="75%">
 
 How do you know if the intersection point is contained in the segments?
 
@@ -64,7 +64,7 @@ There's a much simpler way to compute the intersection of two lines, using this 
 
 If we consider all 2D points along the 2D line through a0 and a1, what shape do all the corresponding 3D points describe in 3D? How about b0 and b1?
 
-<img src="image-6.png" alt="alt text" width="50%">
+<img src="image-6.png" alt="alt text" width="75%">
 
 Geometrically, which line in 3D corresponds to our 2D intersection point x?
 
@@ -76,8 +76,8 @@ How can we compute this line explicitly, using only the homogeneous coordinates 
 
 3. Find the intersection of the lines: Compute the cross product of the two lines in homogeneous coordinates to find the intersection point, which will be the direction vector of the 3D line.
 
-<img src="image-7.png" alt="alt text" width="50%">
-<img src="image-8.png" alt="alt text" width="50%">
-<img src="image-9.png" alt="alt text" width="50%">
+<img src="image-7.png" alt="alt text" width="75%">
+<img src="image-8.png" alt="alt text" width="75%">
+<img src="image-9.png" alt="alt text" width="75%">
 
 ​
