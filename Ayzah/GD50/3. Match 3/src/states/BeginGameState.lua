@@ -44,6 +44,9 @@ function BeginGameState:enter(def)
 end
 
 function BeginGameState:update(dt) 
+    if love.keyboard.wasPressed('escape') then
+        love.event.quit()
+    end
     Timer.update(dt)
 end
 
