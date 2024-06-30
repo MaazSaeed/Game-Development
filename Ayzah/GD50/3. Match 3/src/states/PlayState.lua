@@ -112,8 +112,6 @@ function PlayState:update(dt)
 
             -- match has been made, swap positions of tiles and show that by tweening
             else
-                -- update timer to add a second
-                self.timer = self.timer + 1
 
                 -- swap grid positions of tiles
                 local tempX = self.highlightedTile.gridX
@@ -155,6 +153,9 @@ function PlayState:calculateMatches()
     if matches then
         gSounds['match']:stop()
         gSounds['match']:play()
+        
+        -- update timer to add a second
+        self.timer = self.timer + 1
 
         -- add score for each match
         for k, match in pairs(matches) do
