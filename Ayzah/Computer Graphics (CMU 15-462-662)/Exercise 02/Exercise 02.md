@@ -51,7 +51,7 @@ w=(R,Θ)
 
 3.	Suppose you have a vector x in the plane with components a1, a2, expressed in the basis u1, u2. How do you write this vector in the standard basis e1 = (1,0), e2 = (0,1)? Do not assume that u1 and u2 are orthonormal.
 
-![alt text](image-11.png)
+![alt text](image-2.png)
 
 4.	Now suppose x = (x1,x2) is instead expressed with respect to the standard basis e1 = (1,0), e2 = (0,1) i.e., x = x1 e1 + x2 e2. How do we re-write x in the orthonormal basis u1, u2? I.e., if we want to write it as x = a1 u1 + a2 u2, how do we get the coefficients a1, a2?
 
@@ -80,20 +80,22 @@ w=(R,Θ)
 
 5.	Suppose we have the same setup as in the previous question, but u1 and u2 are no longer orthonormal. How do we now re-write x in the basis u1, u2? I.e., how do we get the coefficients a1, a2? How does the answer to this question relate to the answer to the previous question?
 
-![alt text](image-12.png)
-![alt text](image-13.png)
+
+![alt text](image-3.png)
+![alt text](image-4.png)
 
 6.	Finally, suppose x is expressed in a non-orthonormal basis u1, u2, and we want to re-write it in another non-orthonormal basis v1, v2. What should we do?
 
     Approach 1: Conversion from one non orthonormal basis to standard basis, then to the next non orthonormal basis
 
-![alt text](image-16.png)
-![alt text](image-15.png)
+![alt text](image-5.png)
+![alt text](image-6.png)
+![alt text](image-7.png)
 
     Approach 2: Direct conversion from one non orthonormal basis to another non orthonormal basis
 
-![alt text](image-17.png)
-![alt text](image-18.png)
+![alt text](image-8.png)
+![alt text](image-9.png)
 
 ## Don't Be Dense
 A lot of the matrices we work with in computer graphics (and other fields, like vision and machine learning) have only a small number of nonzero entries. Consider for instance the identity matrix, which has 1's along the diagonal; all other entries are 0. Other common matrices (such as the graph Laplacian) will also be mostly 0's. For this reason there are two basic ways to store a matrix A:
