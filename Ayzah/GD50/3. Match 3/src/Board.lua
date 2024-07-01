@@ -21,6 +21,10 @@
     unlikely we’ll get a board with any viable matches in the first place; in order to fix this, be sure to instead 
     only choose a subset of tile colors to spawn in the Board (8 seems like a good number, though tweak to taste!) 
     before implementing this algorithm!
+        plan:   1.  check if swap is possible, only then swap
+                2.  go from row to row, column to column
+                    make a pretend swap and check both the rows/columns to see if there is a potential swap
+                    if there is no swap possible then reset the board
 
 ]]
 
@@ -172,14 +176,14 @@ function Board:calculateMatches()
     return #self.matches > 0 and self.matches or false
 end
 
-function Board:calculatePoints()
-    for k, match in pairs(self.matches) do
-        for k, tile in pairs(match) do
-            points = 50 *self.tiles[tile.gridY][tile.gridX].variety
-        end
-    end
-    return points
-end
+-- function Board:calculatePoints()
+--     for k, match in pairs(self.matches) do
+--         for k, tile in pairs(match) do
+--             points = 50 *self.tiles[tile.gridY][tile.gridX].variety
+--         end
+--     end
+--     return points
+-- end
 
 function Board:removeMatches()
     for k, match in pairs(self.matches) do
@@ -265,3 +269,46 @@ function Board:containsShiny(match)
     end
     return false
 end
+
+function Board:swapTiles(tile1, tile2)
+    local tempX = tile1.gridX
+    local tempY = tile1.gridY
+
+    tile1.gridX = tile2.gridX
+    tile1.gridY = tile2.gridY
+
+    tile2.gridX = tempX
+    tile2.gridY = tempY
+
+
+    self.tiles[tile1.gridY][tile1.gridX] = tile1
+    self.tiles[tile2.gridY][tile2.gridX] = tile2
+end
+
+function Board:hasPotentialMatch()
+    local possible = false
+    for y = 1, 8 do
+        for x = 1, 8 do
+
+            if x < 8 then
+                local newX = x + 1
+                self:swapTiles(self.tiles[y][x], self.tiles[y][newX])
+                if self:calculateMatches() then
+                    possible = true
+                end
+                self:swapTiles(self.tiles[y][x], self.tiles[y][newX])
+            end
+
+            if y < 8 then
+                local newY = y + 1
+                self:swapTiles(self.tiles[y][x], self.tiles[newY][x])
+                if self:calculateMatches() then
+                    possible = true
+                end
+                self:swapTiles(self.tiles[y][x], self.tiles[newY][x])
+            end
+        end
+    end
+    return possible
+end
+

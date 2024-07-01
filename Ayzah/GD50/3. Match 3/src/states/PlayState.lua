@@ -79,15 +79,19 @@ function PlayState:update(dt)
         if love.keyboard.wasPressed('up') then
             self.boardHighlightY = math.max(0, self.boardHighlightY - 1)
             gSounds['select']:play()
+
         elseif love.keyboard.wasPressed('down') then
             self.boardHighlightY = math.min(7, self.boardHighlightY + 1)
             gSounds['select']:play()
+
         elseif love.keyboard.wasPressed('left') then
             self.boardHighlightX = math.max(0, self.boardHighlightX - 1)
             gSounds['select']:play()
+
         elseif love.keyboard.wasPressed('right') then
             self.boardHighlightX = math.min(7, self.boardHighlightX + 1)
             gSounds['select']:play()
+
         end
 
         -- select or deselect a tile
@@ -112,54 +116,60 @@ function PlayState:update(dt)
 
             -- match has been made, swap positions of tiles and show that by tweening
             else
-
                 -- swap grid positions of tiles
-                local tempX = self.highlightedTile.gridX
-                local tempY = self.highlightedTile.gridY
-
-                local newTile = self.board.tiles[y][x]
-
-                self.highlightedTile.gridX = newTile.gridX
-                self.highlightedTile.gridY = newTile.gridY
-                newTile.gridX = tempX
-                newTile.gridY = tempY
-
-                -- swap tiles in tiles table
-                self.board.tiles[self.highlightedTile.gridY][self.highlightedTile.gridX] = self.highlightedTile
-                self.board.tiles[newTile.gridY][newTile.gridX] = newTile
-
-                -- prevent multiple inputs during tween
-                self.canInput = false
-
-                -- tween between coordinates
-                Timer.tween(0.1, {
-                    [self.highlightedTile] = {x = newTile.x, y = newTile.y},
-                    [newTile] = {x = self.highlightedTile.x, y = self.highlightedTile.y}
-                })
-                :finish(function()
-                    self:calculateMatches()
-                end)
+                self:trySwap(x, y)
             end
         end
     end
-    Timer.update(dt)            
+    Timer.update(dt)
+    self.canInput = true            
 end
 
-function PlayState:calculateMatches()
-    self.highlightedTile = nil
+function PlayState:trySwap(x, y)
+    
+    local newTile = self.board.tiles[y][x]
+    self.board:swapTiles(self.highlightedTile, newTile)
 
-    local matches = self.board:calculateMatches()
+    -- prevent multiple inputs during tween
+    self.canInput = false
+
+    -- tween between coordinates
+    Timer.tween(0.1, {
+        [self.highlightedTile] = {x = newTile.x, y = newTile.y},
+        [newTile] = {x = self.highlightedTile.x, y = self.highlightedTile.y}
+    })
+    -- tween after swap
+    :finish(function()
+        local matches = self.board:calculateMatches()
+        if (matches) then
+            self:calculateMatches(matches)
+        else
+            self.board:swapTiles(newTile, self.highlightedTile)
+            gSounds['error']:play()
+            
+            Timer.tween(0.1, {
+                [self.highlightedTile] = {x = newTile.x, y = newTile.y},
+                [newTile] = {x = self.highlightedTile.x, y = self.highlightedTile.y}
+            })
+        end
+
+    end)
+end
+
+
+
+function PlayState:calculateMatches(matches)
+    self.highlightedTile = nil
 
     if matches then
         gSounds['match']:stop()
         gSounds['match']:play()
         
-        -- update timer to add a second
-        self.timer = self.timer + 1
-
         -- add score for each match
+        -- update timer to add a second with each set of matches
         for k, match in pairs(matches) do
-            self.score = self.score + self.board:calculatePoints()
+            self.score = self.score + #match * 50 * match[1].variety
+            self.timer = self.timer + #match
         end
 
         self.board:removeMatches()
@@ -167,10 +177,14 @@ function PlayState:calculateMatches()
         local tilesToFall = self.board:getFallingTiles()
 
         Timer.tween(0.25, tilesToFall):finish(function()
+            local matches = self.board:calculateMatches()
             -- will keep calling itself recursively until all matches are eliminated
-            self:calculateMatches()
+            self:calculateMatches(matches)
         end)
     else
+        if not self.board:hasPotentialMatch() then
+            self.board:initializeTiles()
+        end
         self.canInput = true
     end
 end
