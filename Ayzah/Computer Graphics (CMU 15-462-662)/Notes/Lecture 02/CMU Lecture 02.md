@@ -1,6 +1,6 @@
 # Lecture 02: Linear Algebra (cmu15-462/662)
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-1.jpg?height=636&width=727&top_left_y=954&top_left_x=799)
+<img src="image-4.png" alt="alt text" width="25%">
 
 - vector: direction and magnitude
 
@@ -31,13 +31,13 @@ A function could be the intensity of am image, could describe a piece of geometr
 
 Can you add two functions?
 
-# ************** PICTURE **************
 
-$\uparrow f(x) \_$nm
+Similarly for do the same for the rest.
 
-$\xrightarrow\left[(f+g)\left(\AA^{(*)}\right]{=}\right.$
 
-Simibrly for cons do the same for therese
+<img src="image.png" alt="alt text" width="50%">
+
+Yes we can.
 
 ### Norm of a Vector
 
@@ -57,7 +57,7 @@ $$
 
 Norm: Formal Definition
 
-Norm is any function that assigns a member to each vector and satisfies the following propertico.
+Norm is any function that assigns a member to each vector and satisfies the following properties.
 
 $$
 \begin{aligned}
@@ -70,35 +70,27 @@ $$
 
 ### Euclidean Norm in Cartesian Coordinates
 
-$$
-|u|=\left|\left(u_{1}, \ldots, u_{n}\right)\right|=\sqrt{\sum_{i=1}^{n} u_{i}^{2}}
-$$
+<img src="image-1.png" alt="alt text" width="25%">
 
-$$
-\begin{aligned}
-& \underline{n}=(4,2) \\
-& |u|=\sqrt{4^{2}+2^{2}}=\sqrt{20} \\
-& =2 \sqrt{5}
-\end{aligned}
-$$
+$ \underline{u}=(4,2) \\$
 
-Does this formula salish all the natural, geometric properties of a noun?
+$ |u|=\sqrt{4^{2}+2^{2}}=\sqrt{20}  =2 \sqrt{5}$
 
-1.1 nom of vector 1111 norm of function
+Does this formula satisfy all the natural, geometric properties of a noun?
 
-$\mathcal{L}^{2}$ Norm of Functions
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-3.jpg?height=1301&width=2554&top_left_y=791&top_left_x=584)
+### $L^{2}$ Norm of Functions
 
-Note that this formula is almost the same as the pairions one except thatthis is cantimons.
+![alt text](image-2.png)
+Note that this formula is almost the same as the previous one except that this is continuous.
 
 Note that the formula does not exactly salify, all the popeutics, because in accordance \#to the pepenties, it is not just the zee vector that cow have the zero nom, as the discontiomities are rumored by the integration.
 
-Function $f(x) .1$ for $x=0.5$, else $f(x)=0$ pones that.
+Function $f(x) .1$ for $x=0.5$, else $f(x)=0$ proves that.
 
 Example:
 
-Find the $\mathcal{L}^{2}$ form of $f(x)=x \sqrt{3}$
+Find the $L^{2}$ form of $f(x)=x \sqrt{3}$
 
 $$
 \sqrt{\int_{0}^{\prime}(x \sqrt{3})^{2} d x}=\sqrt{\int_{0}^{1} 3 x^{2} d x}=\sqrt{\left.x^{2}\right|_{0} ^{1}}=\sqrt{1^{3}-0^{3}}=\sqrt{1}=1 .
@@ -115,7 +107,7 @@ $$
 
 length of the projection $v$ onto you
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-3.jpg?height=790&width=1411&top_left_y=6404&top_left_x=4074)
+<img src="image-3.png" alt="alt text" width="30%">
 
 If you scale me of the vectors, the miner product will also be scaled
 
@@ -125,51 +117,71 @@ $$
 \langle 2 u, v\rangle=2\langle u, v\rangle
 $$
 
-$\langle\underline{u}, \underline{u}\rangle=1$ (with $n$ bing a nit vector) if $n$ is not a mit vector, then what is $<u, u$ = equal to?
+$\langle\underline{u}, \underline{u}\rangle=1$ (with $n$ being a not vector) if $n$ is not a unit vector, then what is $\langle\underline{u}, \underline{u}\rangle$ equal to?
 
 $$
 \begin{aligned}
-& \hat{u}=\underline{u}|u| \rightarrow\langle\underline{u}, \underline{u}\rangle=\langle\hat{\dot{u}}|u|, \hat{u}|u|\rangle \\
-& \langle\underline{u}, \underline{x}\rangle=\langle\underline{v}, \underline{u}\rangle \\
+& \hat{u}=\underline{u}/|u| \rightarrow\langle\underline{u}, \underline{u}\rangle=\langle\hat{u}|u|, \hat{u}|u|\rangle \\
+
+
 & =|u|^{2}\langle\hat{u}, \hat{u}\rangle \\
-& \langle\underline{u}, u\rangle \geqslant 0 \\
+
 & =|u|^{2} \cdot 1=|u|^{2} \\
+\end{aligned}
+$$
+
+
+
+$$
+\begin{aligned}
+
+& \langle\underline{u}, \underline{v}\rangle=\langle\underline{v}, \underline{u}\rangle \\
+
+
+& \langle\underline{u}, u\rangle \geqslant 0 \\
+
 & \langle\underline{u}, \underline{u}\rangle=0 \Leftrightarrow \underline{u}=0 \\
-& \langle a \underline{u}, \underline{\underline{ }}\rangle=a\langle u, v\rangle \\
+
 & \langle\underline{u}+\underline{v}, \underline{u}\rangle=\langle\underline{u}, \underline{w}\rangle+\langle\underline{v}, \underline{w}\rangle
 \end{aligned}
 $$
 
-$2^{2}$ /mer Product of Zunctions
 
-Tust like how we had nouns for furctians, we cam use the inor product to how well they live uo.
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-4.jpg?height=700&width=6122&top_left_y=4060&top_left_x=337)
+$L^{2}$ Inner Product of Functions
 
-Measuring images.
+Just like how we had norms for functions, we can use the innr product to see how well they line up.
 
--10) if we use rom to find the interesting ingege, it cat with dond in one. \%ocater to this mether is the inturatig a ball the sily. in the phatas by taling the dus. of the edges in the photas by taking the devivateve. The more the edges, the more intiresting it is.
+Think of the functions as vectors in an infinite dimensional space.
 
-Linear us effine Maps.
+![alt text](image-5.png)
+
+#### Measuring Images
+
+if we use norm to find the interesting image, it will give the cloud, even though the cat is the interesting one. To cater to this, we make use fo the edges in the photos by taking the derivative. The more the edges, the more interesting it is.
+
+#### Linear vs Affine Maps
 
 ![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-4.jpg?height=1447&width=2266&top_left_y=7206&top_left_x=289)
 
-alvays passes through the origin.
+Linear mapping results in an image always passing through the origin.
 
-Affive-does not pass throng ougie.
+Affine - does not pass through the origin.
 
-Span
+The bottom image is definitely not linearly mapped, given the non linear shape.
 
-set of all vectors that cam be arittim as a linear combination
+### Span
+
+Set of all vectors that can be written as a linear combination.
 
 $$
 \begin{aligned}
 & a \underline{u}+b \underline{v} \\
-& \operatorname{pan}\left(\underline{u}, \underline{-}, \ldots, \underline{u}_{k}\right)=\left\{\underline{x} \in V \mid \underline{x}=\sum_{i=1}^{k} a_{i} \underline{u}_{i}, a_{1}, \ldots, a_{k} \in \mathbb{R}\right\}
+& \operatorname{span}\left(\underline{u}_1, \ldots, \underline{u}_{k}\right)=\left\{\underline{x} \in V \mid \underline{x}=\sum_{i=1}^{k} a_{i} \underline{u}_{i}, a_{1}, \ldots, a_{k} \in \mathbb{R}\right\}
 \end{aligned}
 $$
 
-Span and Linear Maps.
+## Span and Linear Maps
 
 ![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-5.jpg?height=948&width=4460&top_left_y=2319&top_left_x=393)
 
