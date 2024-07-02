@@ -1,4 +1,4 @@
-# Lecture 02: Linear Algebra (cmu15-462/662)
+# Lecture 02: Linear Algebra (CMU 15-462/662)
 
 <img src="image-4.png" alt="alt text" width="25%">
 
@@ -25,7 +25,7 @@ $(a+b) \underline{v}=a \underline{v}+b \underline{v}$
 
 If an object obeys these rules, even if it is not an arrow, it is still a vector space.
 
-### Functions as vectors
+### Functions as Vectors
 
 A function could be the intensity of am image, could describe a piece of geometry, amplitude of sound vibration.
 
@@ -86,7 +86,7 @@ Note that this formula is almost the same as the previous one except that this i
 
 Note that the formula does not exactly salify, all the popeutics, because in accordance \#to the pepenties, it is not just the zee vector that cow have the zero nom, as the discontiomities are rumored by the integration.
 
-Function $f(x) .1$ for $x=0.5$, else $f(x)=0$ proves that.
+Function $f(x) = 1$ for $x=0.5$, else $f(x)=0$ proves that.
 
 Example:
 
@@ -158,11 +158,11 @@ Think of the functions as vectors in an infinite dimensional space.
 
 #### Measuring Images
 
-if we use norm to find the interesting image, it will give the cloud, even though the cat is the interesting one. To cater to this, we make use fo the edges in the photos by taking the derivative. The more the edges, the more interesting it is.
+If we use norm to find the interesting image, it will give the cloud, even though the cat is the interesting one. To cater to this, we make use fo the edges in the photos by taking the derivative. The more the edges, the more interesting it is.
 
 #### Linear vs Affine Maps
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-4.jpg?height=1447&width=2266&top_left_y=7206&top_left_x=289)
+![alt text](image-7.png)
 
 Linear mapping results in an image always passing through the origin.
 
@@ -183,13 +183,11 @@ $$
 
 ## Span and Linear Maps
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-5.jpg?height=948&width=4460&top_left_y=2319&top_left_x=393)
+![alt text](image-6.png)
 
-Linear mop
+Linear map
 
-image of a function all the points that cam be reachool by
-
-applying a function ito its domain.
+image of a function all the points that can be reached by applying a function to its domain.
 
 Basis
 
@@ -197,69 +195,73 @@ $$
 \operatorname{span}\left(e_{1}, \ldots, e_{n}\right)=\mathbb{R}^{n}
 $$
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-5.jpg?height=838&width=3414&top_left_y=4038&top_left_x=2660)
-
-orlónormal
-
+![alt text](image-8.png)
 Gram Schmidt
 
-Used to find othonounal basis from a given wet of basis vectors.
+Used to find orthonormal basis from a given set of basis vectors.
 
-Gram Schmidt Nhoratmm
+Gram Schmidt Algorithm
 
-- nomadize the first recto- (ic divide by its leech)
-- subtract any component of the frost ave fam the second one.
-- nomalize $2^{n}$
-- seat, sowing components of fist $k$ vectors from $k+1$.
+- normalize the first vector (i.e. divide by its length)
+- subtract any component of the first one the second one.
+- normalize second
+- repeat, removing components of fist $k$ vectors from $k+1$.
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-5.jpg?height=1228&width=5593&top_left_y=7255&top_left_x=628)
+![alt text](image-9.png)
 
 Fourier Transform
 
-Imuctians aloollave an orthonormal basis.
+Functions also have an orthonormal basis.
 
 ![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-6.jpg?height=607&width=6169&top_left_y=1093&top_left_x=291)
 
 System of Linear Equations
 
-$x+2 y=3$ Unknown values are sometimes called "degrees of $4 x+5 y=6 \quad$ freedom; equations are sonstines called "constraints" $y=2 \quad x=-1$
+Unknown values are sometimes called "degrees of freedom; equations are sonstines called "constraints".
+
+$x+2 y=3$ 
+
+$4 x+5 y=6$
+
+$y=2 \quad x=-1$
 ![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-6.jpg?height=1672&width=5492&top_left_y=2858&top_left_x=352)
 
-affine since the yetemu does not
+The map is affine since the system does not pass the origin.
 
-Uniqueness, Existence of Solution e.
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-6.jpg?height=2258&width=2672&top_left_y=5252&top_left_x=388)
+### Uniqueness, Existence of Solutions
 
-![](https://cdn.mathpix.com/cropped/2024_07_01_e41a4f9ec9b3e80fbddeg-6.jpg?height=1255&width=2280&top_left_y=5226&top_left_x=3098)
-any paint alar the hire.
+![alt text](image-10.png)
 
-no solution.
+![alt text](image-11.png)
 
-not every paint com be "reached" by $f$
+not every paint can be "reached" by $f$
 
 matrices can be used for
 
-1. symbolic manipulation 2 .munerical computation
+1. symbolic manipulation
+2. numerical computation
 
 $$
 \begin{aligned}
 & f(u)=u_{1} a_{1}+u_{2} a_{2} \\
-& \text { how to encode as a matrix? } \quad A=\left[\begin{array}{ll}
+& \text { How to encode as a matrix? }
+
+A=\left[\begin{array}{ll}
 a_{1}, x & a_{2}, x \\
 a_{1}, y & a_{2}, y \\
-a_{1}, 2 & a_{2}, z
+a_{1}, z & a_{z}, z
 \end{array}\right] \\
 & {\left[\begin{array}{ll}
 a_{1}, x & a_{2}, x \\
 a_{2}, y & a_{2}, y \\
-a_{1}, 2 & a_{2}, 2
+a_{1}, z & a_{z}, 2
 \end{array}\right]\left[\begin{array}{l}
 u_{1} \\
 u_{2}
 \end{array}\right]=\left[\begin{array}{ll}
 a_{1}, x u_{1}+a_{2}, x u_{2} \\
 a_{1}, y u_{1}+a_{2}, y u_{2} \\
-a_{1}, z u_{1}+a_{2}, 3 u_{2}
+a_{1}, z u_{1}+a_{2}, z u_{2}
 \end{array}\right]}
 \end{aligned}
 $$
