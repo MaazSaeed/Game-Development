@@ -15,4 +15,11 @@ Algebraically: preserves vector space operations (addition and scaling).
 
 ## How to determine transformation?
 By invariants it preserves.
+transformation  invariants
+linear          straight lines/origin
+translation     difference between pair of points
+scaling         lines through origin/vector directions
+rotation        origin/distance between points/orientation
+
+## 2D Rotations
 
