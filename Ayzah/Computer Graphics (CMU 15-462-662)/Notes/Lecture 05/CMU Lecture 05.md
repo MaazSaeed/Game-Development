@@ -22,4 +22,10 @@ scaling         lines through origin/vector directions
 rotation        origin/distance between points/orientation
 
 ## 2D Rotations
+![alt text](image.png)
 
+## 3D Rotations
+![alt text](image-1.png)
+
+## Rotations - Transpose as Inverse
+![alt text](image-2.png)
