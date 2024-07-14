@@ -10,7 +10,7 @@ PlayerJumpState = Class{__includes = BaseState}
 
 function PlayerJumpState:init(player, gravity)
     self.player = player
-    self.gravity = gravity
+    self.gravity = gravity*0.3
     self.animation = Animation {
         frames = {3},
         interval = 1
