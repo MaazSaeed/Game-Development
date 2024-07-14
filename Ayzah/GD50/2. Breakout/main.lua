@@ -29,12 +29,15 @@ function love.load()
         ['main'] = love.graphics.newImage('graphics/breakout.png'),
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
-        ['particle'] = love.graphics.newImage('graphics/particle.png')
+        ['particle'] = love.graphics.newImage('graphics/particle.png'),
     }
 
     gFrames = {
         ['paddles'] = GenerateQuadsPaddles(gTextures['main']),
-        ['balls'] = GenerateQuadsBalls(gTextures['main'])
+        ['balls'] = GenerateQuadsBalls(gTextures['main']),
+        ['bricks'] = GenerateQuadsBricks(gTextures['main']),
+        ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9),
+        ['arrows'] = GenerateQuads(gTextures['arrows'], 24, 24)
     }
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -63,10 +66,27 @@ function love.load()
 
     gStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
-        ['play'] = function() return PlayState() end
+        ['play'] = function() return PlayState() end,
+        ['serve'] = function() return ServeState() end,
+        ['game-over'] = function() return GameOverState() end,
+        ['victory'] = function() return VictoryState() end,
+        ['high-scores'] = function() return HighScoreState() end,
+        ['enter-high-score'] = function() return EnterHighScoreState() end,
+        ['paddle-select'] = function() return PaddleSelectState() end
     }
-    gStateMachine:change('start')
 
+
+    -- initialize high scores
+    local initial_highScores = loadHighScores()
+
+    -- Add highScores to gStateMachine initial state
+    gStateMachine:change('start', {
+        highScores = initial_highScores
+    })
+
+    gSounds['music']:play()
+    gSounds['music']:setLooping(true)
+    
     love.keyboard.keysPressed  = {}
 end
 
@@ -111,4 +131,84 @@ function displayFPS()
     love.graphics.setFont(gFonts['small'])
     love.graphics.setColor(0, 1, 0, 1)
     love.graphics.print('FPS: ' .. tostring(love.timer.getFPS()), 5, 5)
+end
+
+function renderHealth(health)
+    local healthX = VIRTUAL_WIDTH - 100
+
+    for i = 1, health do
+        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][1], healthX, 4)
+        healthX = healthX + 11
+    end
+
+    for i = 1, 3 - health do
+        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][2], healthX, 4)
+        healthX = healthX + 11
+    end
+end
+
+function renderScore(score)
+    love.graphics.setFont(gFonts['small'])
+    love.graphics.print('Score: ', VIRTUAL_WIDTH - 60, 5)
+    love.graphics.printf(tostring(score), VIRTUAL_WIDTH - 50, 5, 40, 'right')
+end
+
+function loadHighScores()
+    love.filesystem.setIdentity('breakout')
+
+    -- if the file breakout.lst doesn't exist, create it with some default values
+    if not love.filesystem.getInfo('breakout.lst') then
+        local scores = ''
+        for i = 10, 1, -1 do
+            scores = scores .. '---\n'
+            scores = scores .. tostring(i * 1000) .. '\n'
+        end
+
+        love.filesystem.write('breakout.lst', scores)
+    end
+
+    -- Read the scores from the file, save in table and return
+    local name = true
+    local currentName = nil
+    local counter = 1
+
+    local scores = {}
+    for line in love.filesystem.lines('breakout.lst') do
+        if name then
+            currentName = string.sub(line, 1, 3)
+            name = false
+        else
+            scores[counter] = {
+                name = currentName,
+                score = tonumber(line)
+            }
+            counter = counter + 1
+            name = true
+        end
+    end
+
+    return scores
+end
+
+function ensureHighScores(highScores)
+    for i = 1, 10 do
+        if not highScores[i] then
+            highScores[i] = { name = "---", score = 0 }
+        end
+    end
+    return highScores
+end
+
+function saveHighScores(highScores)
+    love.filesystem.setIdentity('breakout')
+    local scoresStr = ''
+
+    for i = 1, 10 do
+        if highScores[i] then
+            scoresStr = scoresStr .. (highScores[i].name or '---') .. '\n'
+            scoresStr = scoresStr .. tostring(highScores[i].score or 0) .. '\n'
+        end
+    end
+
+    love.filesystem.write('breakout.lst', scoresStr)
 end
