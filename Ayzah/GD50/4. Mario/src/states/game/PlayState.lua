@@ -12,6 +12,10 @@ function PlayState:init()
     self.camY = 0
     self.level = LevelMaker.generate(100, 10)
     self.tileMap = self.level.tileMap
+
+    -- self.camX = self.level.landingspotX
+
+
     self.background = math.random(3)
     self.backgroundX = 0
 
@@ -19,7 +23,7 @@ function PlayState:init()
     self.gravityAmount = 6
 
     self.player = Player({
-        x = 0, y = 0,
+        x = (self.level.landingspotX - 1)*TILE_SIZE, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {

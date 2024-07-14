@@ -29,6 +29,8 @@ function TileMap:pointToTile(x, y)
         return nil
     end
     
+    -- tiles numbered from 1 to n
+    -- locating the tile
     return self.tiles[math.floor(y / TILE_SIZE) + 1][math.floor(x / TILE_SIZE) + 1]
 end
 
