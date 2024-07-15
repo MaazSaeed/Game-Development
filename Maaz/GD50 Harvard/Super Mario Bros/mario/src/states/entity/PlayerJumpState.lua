@@ -60,7 +60,11 @@ function PlayerJumpState:update(dt)
     for k, object in pairs(self.player.level.objects) do
         if object:collides(self.player) then
             if object.solid then
-                object.onCollide(object)
+                if object.texture == 'lock-blocks' and self.player.haskey then
+                    object.onCollide(object)
+                elseif object.texture ~= 'lock-blocks' then
+                    object.onCollide(object)
+                end
 
                 if object.texture == 'goal-post' then
                     gStateMachine:change('start')
