@@ -180,6 +180,7 @@ Transformation matrix:
   ![alt text](image-6.png)
   ![alt text](image-7.png)
 ![alt text](image-8.png)
+![alt text](image-9.png)
 
 The normal is not orthogonal to the triangle! 
 
@@ -195,16 +196,17 @@ Vector – zero homogeneous coordinate (c = 0)
 How can we divide by zero?
 Think of vectors as “points at infinity” (“ideal points”)
 
-Perspective Projection in Homogeneous Coordinates.
+#### Perspective Projection in Homogeneous Coordinates
 (x, y, z)    ->     (x/z, y/z)
 
  
- 
-Screen Transformation 
+ ![alt text](image-10.png)
+
+## Screen Transformation 
 Turn these coordinates into pixel coordinates.
 y is flipped on the screen – goes from top to bottom.
 
-Scene Graph
+#### Scene Graph
 Helps organise transformations.
 If we have a cube creature, it will be difficult to directly specify each transformation.
 Each part of the body is linked, so it is better to build up transformations of “lower” parts from transitions of “upper” parts.
