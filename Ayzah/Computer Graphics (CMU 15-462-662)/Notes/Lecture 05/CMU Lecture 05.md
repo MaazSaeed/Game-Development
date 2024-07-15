@@ -28,4 +28,41 @@ rotation        origin/distance between points/orientation
 ![alt text](image-1.png)
 
 ## Rotations - Transpose as Inverse
-![alt text](image-2.png)
+Q<sup>T</sup>Q = *I*
+
+Does every matrix Q<sup>T</sup>Q = *I* represent a rotation?
+
+No. E.g. ![alt text](image-3.png)
+
+Q<sup>T</sup>Q = *I* holds true, but Q is a reflection matrix.
+
+## Orthogonal Transformations
+Transformations that preserve distances and origin.
+
+Q<sup>T</sup>Q = *I*
+
+For rotations, the determinant of Q is positive, det(Q) > 0.
+
+For reflections, the determinant of Q is negative, det(Q) < 0.
+
+## Scaling
+Preserves direction while changing magnitude.
+
+$$
+\left(\begin{array}{cc} 
+a & 0 & 0\\
+0 & a & 0\\
+0 & 0 & a\\
+\end{array}\right)
+
+\left(\begin{array}{cc} 
+u1\\
+u2\\
+u<sub>3</sub>\\
+\end{array}\right)
+=
+\left(\begin{array}{cc} 
+10 & 0\\ 
+0 & 5
+\end{array}\right)
+$$ 
