@@ -21,6 +21,7 @@ function GameObject:init(def)
     self.onCollide = def.onCollide
     self.onConsume = def.onConsume
     self.hit = def.hit
+    self.show = def.show
 end
 
 function GameObject:collides(target)
@@ -33,5 +34,8 @@ function GameObject:update(dt)
 end
 
 function GameObject:render()
-    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame], self.x, self.y)
+    
+    if self.show then
+        love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame], self.x, self.y)
+    end
 end

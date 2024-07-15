@@ -57,6 +57,7 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
+
     love.graphics.push()
     love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX), 0)
     love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX),
@@ -79,6 +80,9 @@ function PlayState:render()
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print(tostring(self.player.score), 4, 4)
+    love.graphics.print(tostring(self.player.haskey), 10, 10)
+
+
 end
 
 function PlayState:updateCamera()
