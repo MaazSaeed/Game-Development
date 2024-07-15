@@ -10,7 +10,7 @@ PlayerJumpState = Class{__includes = BaseState}
 
 function PlayerJumpState:init(player, gravity)
     self.player = player
-    self.gravity = gravity
+    self.gravity = gravity * 0.2
     self.animation = Animation {
         frames = {3},
         interval = 1
@@ -24,6 +24,7 @@ function PlayerJumpState:enter(params)
 end
 
 function PlayerJumpState:update(dt)
+
     self.player.currentAnimation:update(dt)
     self.player.dy = self.player.dy + self.gravity
     self.player.y = self.player.y + (self.player.dy * dt)
@@ -61,10 +62,20 @@ function PlayerJumpState:update(dt)
             if object.solid then
                 object.onCollide(object)
 
+                if object.texture == 'goal-post' then
+                    gStateMachine:change('start')
+                end
+            
                 self.player.y = object.y + object.height
                 self.player.dy = 0
                 self.player:changeState('falling')
             elseif object.consumable then
+
+                if object.id == 'key' then
+                    self.player.haskey = true
+                    object.block.onCollide(object.block)
+                end
+
                 object.onConsume(self.player)
                 table.remove(self.player.level.objects, k)
             end
