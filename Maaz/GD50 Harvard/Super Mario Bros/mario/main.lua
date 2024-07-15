@@ -1,4 +1,3 @@
-
 love.graphics.setDefaultFilter('nearest', 'nearest')
 require 'src/Dependencies'
 
@@ -14,7 +13,7 @@ function love.load()
         resizable = true,
         canvas = false
     })
-
+    
     gStateMachine = StateMachine {
         ['start'] = function() return StartState() end,
         ['play'] = function() return PlayState() end
