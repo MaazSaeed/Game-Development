@@ -1,7 +1,7 @@
 Bird = Class{}
 
-local GRAVITY = 7
-
+local GRAVITY = 9.81
+local THRUST = -2
 
 function Bird:init()
     self.image = love.graphics.newImage('bird.png')
@@ -14,9 +14,15 @@ function Bird:init()
     self.dy = 0
 end
 
+
 function Bird:update(dt)
     -- Acceleration affects velocity which affects speed which affects position
     self.dy = self.dy + GRAVITY * dt
+
+    if love.keyboard.wasPressed('space') then
+        self.dy = THRUST
+    end
+
     self.y = self.y + self.dy 
 end
 
