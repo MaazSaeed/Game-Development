@@ -21,7 +21,8 @@ function LevelMaker.generate(width, height)
     local topper = true
     local tileset = math.random(20)
     local topperset = math.random(20)
-
+    local landingSpotX = nil
+    
     local lockblocks = math.random(width - 30, width - 10)
 
     local keySpawned = false
@@ -89,6 +90,10 @@ function LevelMaker.generate(width, height)
             end
         else
             tileID = TILE_ID_GROUND
+            
+            if landingSpotX == nil then 
+                landingSpotX = x
+            end
 
             -- height at which we would spawn a potential jump block
             local blockHeight = 4
@@ -304,5 +309,5 @@ function LevelMaker.generate(width, height)
     local map = TileMap(width, height)
     map.tiles = tiles
     
-    return GameLevel(entities, objects, map)
+    return GameLevel(entities, objects, map, landingSpotX)
 end

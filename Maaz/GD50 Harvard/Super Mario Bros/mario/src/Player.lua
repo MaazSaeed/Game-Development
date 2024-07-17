@@ -22,6 +22,7 @@ end
 
 function Player:render()
     Entity.render(self)
+    love.graphics.print('T: ' .. tostring(self.levelNumber), 20, 20)
 end
 
 function Player:checkLeftCollisions(dt)

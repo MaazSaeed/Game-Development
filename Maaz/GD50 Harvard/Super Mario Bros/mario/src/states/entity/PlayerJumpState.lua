@@ -67,7 +67,7 @@ function PlayerJumpState:update(dt)
                 end
 
                 if object.texture == 'goal-post' then
-                    gStateMachine:change('start')
+                    gStateMachine:change('play', {self.player.levelNumber + 1})
                 end
             
                 self.player.y = object.y + object.height
