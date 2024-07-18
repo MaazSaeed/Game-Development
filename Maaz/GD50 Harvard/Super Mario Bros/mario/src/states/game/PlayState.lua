@@ -14,12 +14,14 @@ function PlayState:init()
     self.tileMap = self.level.tileMap
     self.background = math.random(3)
     self.backgroundX = 0
-
+    
     self.gravityOn = true
     self.gravityAmount = 6
+    
+    self:enter({levelNumber = 1})
 
     self.player = Player({
-        x = 0, y = 0,
+        x = (self.level.landingSpotX - 1) * TILE_SIZE, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {
@@ -29,13 +31,19 @@ function PlayState:init()
             ['falling'] = function() return PlayerFallingState(self.player, self.gravityAmount) end
         },
         map = self.tileMap,
-        level = self.level
+        level = self.level,
+        levelNumber = self.levelNumber
     })
 
     self:spawnEnemies()
 
     self.player:changeState('falling')
 end
+
+function PlayState:enter(params)
+    self.levelNumber = params.levelNumber
+end
+
 
 function PlayState:update(dt)
     Timer.update(dt)
@@ -81,8 +89,7 @@ function PlayState:render()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print(tostring(self.player.score), 4, 4)
     love.graphics.print(tostring(self.player.haskey), 10, 10)
-
-
+    love.graphics.print(tostring(self.levelNumber), 20, 20)
 end
 
 function PlayState:updateCamera()
