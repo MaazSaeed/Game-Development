@@ -6,11 +6,13 @@ end
 
 function PauseState:enter(params)
     sounds['music']:stop()
+    sounds['pause']:play()
     self.previousState = params
 end
 
 function PauseState:update(dt)
     if love.keyboard.wasPressed('p') then
+        sounds['unpause']:play()
         sounds['music']:play()
         gStateMachine:change('play', self.previousState)
     end
