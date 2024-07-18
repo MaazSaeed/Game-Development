@@ -25,12 +25,12 @@ function PlayState:init()
 
     -- initialize our last recorded Y value for a gap placement to base other gaps off of
     self.lastY = -PIPE_HEIGHT + math.random(80) + 20
-
 end
 
 function PlayState:update(dt)
     if love.keyboard.wasPressed('p') then
-        gStateMachine:change('pause', {bird = self.bird, pipePairs = self.pipePairs, timer = self.timer, score = self.score, lastY = self.lastY})
+        -- storing the current state of PlayState, so that when the game is unpaused it continues from where it left off in the PlayState
+        gStateMachine:change('pause', self)
     end
     -- update timer for pipe spawning
     self.timer = self.timer + dt
