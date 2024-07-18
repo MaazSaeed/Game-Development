@@ -33,6 +33,7 @@ function Entity:init(def)
 
     -- reference to level for tests against other entities + objects
     self.level = def.level
+    self.levelNumber = def.levelNumber
 end
 
 function Entity:changeState(state, params)
@@ -44,8 +45,8 @@ function Entity:update(dt)
 end
 
 function Entity:collides(entity)
-    return not (self.x > entity.x + entity.width or entity.x > self.x + self.width or
-                self.y > entity.y + entity.height or entity.y > self.y + self.height)
+    return not (self.x > entity.x + entity.width - 2 or entity.x > self.x + self.width - 2 or
+                self.y > entity.y + entity.height - 2 or entity.y > self.y + self.height - 2)
 end
 
 function Entity:render()

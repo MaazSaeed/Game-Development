@@ -21,11 +21,12 @@ function GameObject:init(def)
     self.onCollide = def.onCollide
     self.onConsume = def.onConsume
     self.hit = def.hit
+    self.show = def.show
 end
 
 function GameObject:collides(target)
-    return not (target.x > self.x + self.width or self.x > target.x + target.width or
-            target.y > self.y + self.height or self.y > target.y + target.height)
+    return not (target.x > self.x + self.width - 2 or self.x > target.x + target.width - 2 or
+            target.y > self.y + self.height - 2 or self.y > target.y + target.height - 2)
 end
 
 function GameObject:update(dt)
@@ -33,5 +34,8 @@ function GameObject:update(dt)
 end
 
 function GameObject:render()
-    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame], self.x, self.y)
+    
+    if self.show then
+        love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.frame], self.x, self.y)
+    end
 end

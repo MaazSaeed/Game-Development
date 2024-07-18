@@ -12,18 +12,16 @@ function PlayState:init()
     self.camY = 0
     self.level = LevelMaker.generate(100, 10)
     self.tileMap = self.level.tileMap
-
-    -- self.camX = self.level.landingspotX
-
-
     self.background = math.random(3)
     self.backgroundX = 0
-
+    
     self.gravityOn = true
-    self.gravityAmount = 6
+    self.gravityAmount = 24
+    
+    self:enter({levelNumber = 1})
 
     self.player = Player({
-        x = (self.level.landingspotX - 1)*TILE_SIZE, y = 0,
+        x = (self.level.landingSpotX - 1) * TILE_SIZE, y = 0,
         width = 16, height = 20,
         texture = 'green-alien',
         stateMachine = StateMachine {
@@ -33,13 +31,15 @@ function PlayState:init()
             ['falling'] = function() return PlayerFallingState(self.player, self.gravityAmount) end
         },
         map = self.tileMap,
-        level = self.level
+        level = self.level,
+        levelNumber = self.levelNumber
     })
 
     self:spawnEnemies()
 
     self.player:changeState('falling')
 end
+
 
 function PlayState:update(dt)
     Timer.update(dt)
@@ -61,6 +61,7 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
+
     love.graphics.push()
     love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX), 0)
     love.graphics.draw(gTextures['backgrounds'], gFrames['backgrounds'][self.background], math.floor(-self.backgroundX),
@@ -82,7 +83,8 @@ function PlayState:render()
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.print(tostring(self.player.score), 4, 4)
+    love.graphics.print(tostring(self.player.score), 4, 4)    
+    love.graphics.print('T: ' .. tostring(gStateMachine.levelNumber), 20, 20)
 end
 
 function PlayState:updateCamera()
