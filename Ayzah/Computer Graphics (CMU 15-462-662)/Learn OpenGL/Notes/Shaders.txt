@@ -1,0 +1,74 @@
+Shaders are like functions that run on the GPU, hence they can take inputs and give outputs.
+
+GLSL is the OpenGL language (in which we wrote the shader code, not to be confused with C).
+
+	#version 330 core //specifies the version and profile
+	layout (location = 0) in vec3 aPos; // vertices start at location 0
+	// notice "in" keyword, allowing the shader to take a value
+	void main() // main function
+	{
+		// 3D with a fourth dimension coordinate being an arbitrary value for now
+		gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+	}
+
+
+On the other hand, in the code of fragment shaders, you see the keyword "out", showing the function will provide some output.
+	#version 330 core //specifies the version and profile
+	out vec4 FragColor;
+	void main() // main function
+	{
+		// this results in each vertex havng the same colour
+		FragColor = vec4(0.8f, 0.3f, 0.02f, 1.0f);
+	}
+
+We will modify the code of the vertex shader to input the colour values as well. Then we will output the colours from the vertex shader into the fragment shader.
+
+	#version 330 core
+	layout (location = 0) in vec3 aPos;
+	layout (location = 1) in vec3 aColor;
+
+	out vec3 color;
+
+	void main()
+	{
+		gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
+		color = aColor;
+	}
+
+The fragment shader now needs to input this colour, for which we modify the code to look like this:
+
+	#version 330 core
+	out vec4 FragColor;
+
+	in vec3 color;
+
+	void main()
+	{
+		FragColor = vec4(color, 1.0f);
+	}
+
+Skipping this step would result in OpenGL not knowing it has to link the shaders.
+
+
+Now we need to change LinkVBO to linkAttrib in the VAO.h file and add 4 variables.
+	void LinkAttrib(VBO& VBO, GLuint layout, GLuint, numComponents, GLenum type, GLsizeptr stride, void* offset);
+
+
+Now make changes to the VAO.cpp file
+void VAO::LinkAttrib(VBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset)
+{
+	VBO.Bind();
+	glVertexAttribPointer(layout, numComponents, type, GL_FALSE, stride, offset);
+	glEnableVertexAttribArray(layout);
+	VBO.Unbind();
+}
+
+
+
+
+
+
+
+
+
+

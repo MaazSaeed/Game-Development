@@ -1,0 +1,35 @@
+Objective: Draw an upside down small triangle in the original triangle. A novice way to do this would be to specify two whole triangles, resulting in 9 vertices. 
+A better approach would be to specify 6 vertices and inform OpenGL which vertices to visit twice by specifying those in the indices array.
+
+Steps:
+- Add the new vertices in the array.
+- Create an array storing the indices.
+- Create the index buffer (EBO).
+- Generate the buffer specifying there is only one object 
+	glGenBuffers(1, &EBO);
+- Make it current (aka bind it) and specify its type.
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+- Link it to the indices array.
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+- Unbind it after the VAO because EBO is stored in the VAO. If you unbind the EBO before the VAO, you are telling OpenGL that you do not want the VAO to use the EBO.
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+- To keep things clean, delete the EBO at the end.
+	glDeleteBuffers(1, &EBO);
+- Replace glDrawArrays by glDrawElements.
+	glDrawElements(GL_TRIANGLES, 9, GL_UNSIGNED_INT, 0);
+	(what primitive to draw, number of indices, data type, index)
+
+
+
+
+
+
+From the comments under the video.
+
+@VictorGordan
+
+OpenGL is a state machine. So imagine a bunch of boxes each made in a specific shape for a certain type of OpenGL "class". And keep in mind there is only one box for a "class" and it can only hold one object of that "class".
+
+So how does the VAO know what to link to? Easy. We put the VAO in its box, and then we put the VBO in its box. We put them in the boxes by binding them. Now for example we use glBufferData, we don't have to specify which VBO is given that data, OpenGL knows we mean the VBO in the box! Same with glVertexAttribPointer. We don't have to tell OpenGL which specific VBO will have that attribute, it just does it on whatever is in the box.
+
+This is why when we don't work with our buffers we unbind them, aka we take them out of the boxes and put them in storage. Otherwise we could unintentionally modify them. When we need them, we just bind them :)
