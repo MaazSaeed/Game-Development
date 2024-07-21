@@ -1,17 +1,14 @@
-Powerup = Class{}
+Powerup = Class{__includes = Ball}
 
 function Powerup:init(x, y)
+    Ball.init(self)
     self.x = x
     self.y = y
 
     -- total of 10 powerup quads, choosing one at random
     self.skin = math.random(10)
 
-    self.display = true
-
-    self.dx = 0
-    self.dy = math.random(30, 60)
-
+    self.dy = math.random(80, 120)
 end
 
 function Powerup:update(dt)
@@ -20,8 +17,7 @@ function Powerup:update(dt)
 end
 
 function Powerup:render()
-    if self.display then
-        love.graphics.draw(gTextures['main'], gFrames['powerup'][self.skin],
+    love.graphics.draw(gTextures['main'], gFrames['powerup'][self.skin],
         self.x, self.y)
-    end
 end
+

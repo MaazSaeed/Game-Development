@@ -16,6 +16,7 @@
 Ball = Class{}
 
 function Ball:init(skin)
+    
     -- simple positional and dimensional variables
     self.width = 8
     self.height = 8

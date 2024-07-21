@@ -46,7 +46,9 @@ end
 
 function VictoryState:render()
     self.paddle:render()
-    self.ball:render()
+    for k, ball in ipairs(self.ball) do
+        ball:render()
+    end
 
     renderHealth(self.health)
     renderScore(self.score)
