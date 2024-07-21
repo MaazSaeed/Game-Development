@@ -26,5 +26,22 @@ GAME_OBJECT_DEFS = {
     },
     ['pot'] = {
         -- TODO
+    },
+    ['health'] = {
+        texture = 'hearts',
+        type = 'health',
+        frame = 5,
+        width = 16,
+        height = 16,
+        solid = false,
+        defaultState = 'unpressed',
+        states = {
+            ['unpressed'] = {
+                frame = 5
+            },
+            ['pressed'] = {
+                frame = 1
+            }
+        }
     }
 }
