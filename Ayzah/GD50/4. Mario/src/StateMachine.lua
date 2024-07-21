@@ -9,6 +9,7 @@ function StateMachine:init(states)
 	}
 	self.states = states or {} -- [name] -> [function that returns states]
 	self.current = self.empty
+	self.levelNumber = 1
 end
 
 function StateMachine:change(stateName, enterParams)
