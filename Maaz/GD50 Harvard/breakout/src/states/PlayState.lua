@@ -20,6 +20,11 @@ PlayState = Class{__includes = BaseState}
     We initialize what's in our PlayState via a state table that we pass between
     states as we go from playing to serving.
 ]]
+
+function PlayState:init()
+    self.hasKey = false
+end
+
 function PlayState:enter(params)
     self.paddle = params.paddle
     self.bricks = params.bricks
@@ -48,7 +53,6 @@ function PlayState:update(dt)
         gSounds['paddle-ampup']:play()
         self.paddle.size = self.paddle.size + 1
         self.scoreExp = self.scoreExp * 2.5
-        -- clamp it to 4, as we have only 4 sizes of paddles
     end
 
     if self.paused then
@@ -102,11 +106,19 @@ function PlayState:update(dt)
             -- only check collision if we're in play
             if brick.inPlay and ball:collides(brick) then
 
+                brick:hit()
                 -- add to score
+                if self.hasKey and brick.lockedBrick then
+                    brick.lockedBrick = false
+                end
+                
+                if brick.lockedBrick and not self.hasKey then 
+                    goto continue
+                end
+
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
                 -- trigger the brick's hit function, which removes it from play
-                brick:hit()
 
                 -- if we have enough points, recover a point of health
                 if self.score > self.recoverPoints then
@@ -183,11 +195,12 @@ function PlayState:update(dt)
                 -- only allow colliding with one brick, for corners
                 break
             end
+            ::continue::
         end
     end
 
     -- if ball goes below bounds, revert to serve state and decrease health
-    if self.ball[1].y >= VIRTUAL_HEIGHT then
+    if self.ball[1].y + 8 >= VIRTUAL_HEIGHT then
         self.health = self.health - 1
         gSounds['hurt']:play()
 
@@ -212,7 +225,10 @@ function PlayState:update(dt)
     -- for rendering particle systems
     for k, brick in pairs(self.bricks) do
         brick:update(dt)
+    end
 
+    for k, brick in pairs(self.bricks) do
+        
         -- check to see if a particular brick has a power up, then descend it down (after the brick is destroyed)
         -- and if the paddle collides with the powerup then generate two new balls on the screen
         -- which should have the same properties as the main ball, but shall not result in a loss, if any of the ball
@@ -223,7 +239,6 @@ function PlayState:update(dt)
 
             if brick.powerup:collides(self.paddle) then
                 self.amped = true
-                brick.powerup = nil
                 local newBall = Ball()
                 newBall.x = self.ball[1].x + math.random(-10, -15)
                 newBall.y = self.ball[1].y + math.random(-10, -15)
@@ -234,12 +249,17 @@ function PlayState:update(dt)
                 newBall.dx = self.ball[1].dx + math.random(-10, -25)
                 newBall.dy = self.ball[1].dy + math.random(-10, -25)
                 table.insert(self.ball, newBall)
-
+                
                 gSounds['powerup']:play()
+                
+                if brick.powerup and brick.powerup.isKey then
+                    self.hasKey = true
+                    gSounds['unlocked']:play() -- key attained
+                end
+                
+                brick.powerup = nil
             end
         end
-
-
     end
 
 

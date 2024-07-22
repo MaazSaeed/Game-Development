@@ -57,7 +57,7 @@ function love.load()
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
         ['particle'] = love.graphics.newImage('graphics/particle.png'),
-        ['powerups'] = love.graphics.newImage('graphics/breakout.png')
+        ['powerups'] = love.graphics.newImage('graphics/breakout.png'),
     }
 
     -- Quads we will generate for all of our textures; Quads allow us
@@ -68,7 +68,8 @@ function love.load()
         ['balls'] = GenerateQuadsBalls(gTextures['main']),
         ['bricks'] = GenerateQuadsBricks(gTextures['main']),
         ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9),
-        ['powerup'] = GenerateQuadsPowerup(gTextures['powerups'], 16, 16)
+        ['powerup'] = GenerateQuadsPowerup(gTextures['powerups'], 16, 16),
+        ['locked-brick'] = GenerateQuadLockedBrick(gTextures['main'], 32, 16)
     }
     
     -- initialize our virtual resolution, which will be rendered within our
@@ -97,6 +98,8 @@ function love.load()
         ['pause'] = love.audio.newSource('sounds/pause.wav', 'static'),
         ['powerup'] = love.audio.newSource('sounds/powerup.wav', 'static'),
         ['paddle-ampup'] =  love.audio.newSource('sounds/paddle-ampup.wav', 'static'),
+        ['fail'] = love.audio.newSource('sounds/fail.wav', 'static'),
+        ['unlocked'] = love.audio.newSource('sounds/unlocked.wav', 'static'),
         ['music'] = love.audio.newSource('sounds/music.wav', 'static')
     }
 

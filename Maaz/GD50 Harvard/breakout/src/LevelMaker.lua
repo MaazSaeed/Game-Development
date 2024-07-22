@@ -47,7 +47,9 @@ function LevelMaker.createMap(level)
     -- highest color of the highest tier, no higher than 5
     local highestColor = math.min(5, level % 5 + 3)
 
-    local powerup = false
+    local lockedBrick = false
+    local keyPlaced = false
+
     -- lay out bricks such that they touch each other and fill the space
     for y = 1, numRows do
         -- whether we want to enable skipping for this row
@@ -88,12 +90,24 @@ function LevelMaker.createMap(level)
             
             -- a 0.33 chance of the current brick storing a powerup
             local powerupChance = math.random(3) == 1
+            local powerupIsKey = math.random(3) == 1
+
             local powerupObj = nil
+
+            local lockedBrickChance = math.random(100) <= 44 and not lockedBrick and keyPlaced
+            
             if powerupChance then 
-                powerup = true
-                powerupObj = Powerup((x - 1) * 32 + 8 + (13 - numCols) * 16, y * 16)
+                powerupObj = Powerup((x - 1) * 32 + 8 + (13 - numCols) * 16, y * 16, powerupIsKey)
+                if powerupIsKey then 
+                    keyPlaced = true
+                end
             end
 
+            -- a 0.44 probability of the current brick being a lock brick
+
+            if lockedBrickChance then
+                lockedBrick = true
+            end 
 
             b = Brick(
                 -- x-coordinate
@@ -104,8 +118,10 @@ function LevelMaker.createMap(level)
                 
                 -- y-coordinate
                 y * 16,                  -- just use y * 16, since we need top padding anyway
-                powerupObj
+                powerupObj,
+                lockedBrickChance
             )
+
 
             -- if we're alternating, figure out which color/tier we're on
             if alternatePattern and alternateFlag then
