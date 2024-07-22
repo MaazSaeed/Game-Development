@@ -5,8 +5,9 @@ function Powerup:init(x, y)
     self.x = x
     self.y = y
 
-    -- total of 10 powerup quads, choosing one at random
-    self.skin = math.random(10)
+    -- total of 3 powerup quads, choosing one at random
+    -- quads 7, 8, and 9 are for mutliple ball powerups
+    self.skin = math.random(7, 9)
 
     self.dy = math.random(80, 120)
 end

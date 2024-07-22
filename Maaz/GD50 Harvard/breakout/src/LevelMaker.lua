@@ -73,14 +73,12 @@ function LevelMaker.createMap(level)
         local solidTier = math.random(0, highestTier)
 
         for x = 1, numCols do
-            -- chance for the current brick to store a powerup
-            local powerupChance = math.random(2) == 1
-
+            
             -- if skipping is turned on and we're on a skip iteration...
             if skipPattern and skipFlag then
                 -- turn skipping off for the next iteration
                 skipFlag = not skipFlag
-
+                
                 -- Lua doesn't have a continue statement, so this is the workaround
                 goto continue
             else
@@ -88,9 +86,10 @@ function LevelMaker.createMap(level)
                 skipFlag = not skipFlag
             end
             
-            -- one powerup allowed per level only
+            -- a 0.33 chance of the current brick storing a powerup
+            local powerupChance = math.random(3) == 1
             local powerupObj = nil
-            if true then 
+            if powerupChance then 
                 powerup = true
                 powerupObj = Powerup((x - 1) * 32 + 8 + (13 - numCols) * 16, y * 16)
             end
