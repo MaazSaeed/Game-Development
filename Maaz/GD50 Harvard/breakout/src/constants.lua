@@ -20,3 +20,6 @@ VIRTUAL_HEIGHT = 243
 
 -- paddle movement speed
 PADDLE_SPEED = 200
+
+-- Number of Frames rendered since the start of the game
+FRAME_COUNT = 0

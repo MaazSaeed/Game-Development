@@ -100,6 +100,7 @@ function love.load()
         ['paddle-ampup'] =  love.audio.newSource('sounds/paddle-ampup.wav', 'static'),
         ['fail'] = love.audio.newSource('sounds/fail.wav', 'static'),
         ['unlocked'] = love.audio.newSource('sounds/unlocked.wav', 'static'),
+        ['hooray'] = love.audio.newSource('sounds/hooray.wav', 'static'),
         ['music'] = love.audio.newSource('sounds/music.wav', 'static')
     }
 
@@ -162,6 +163,8 @@ function love.update(dt)
 
     -- reset keys pressed
     love.keyboard.keysPressed = {}
+
+    FRAME_COUNT = FRAME_COUNT + 1
 end
 
 --[[

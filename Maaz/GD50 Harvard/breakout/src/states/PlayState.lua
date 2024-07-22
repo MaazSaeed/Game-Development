@@ -106,16 +106,17 @@ function PlayState:update(dt)
             -- only check collision if we're in play
             if brick.inPlay and ball:collides(brick) then
 
-                brick:hit()
                 -- add to score
                 if self.hasKey and brick.lockedBrick then
                     brick.lockedBrick = false
+                    gSounds['hooray']:play()
                 end
                 
-                if brick.lockedBrick and not self.hasKey then 
+                if brick.lockedBrick and not self.hasKey then
                     goto continue
                 end
-
+                
+                brick:hit()
                 self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
                 -- trigger the brick's hit function, which removes it from play
@@ -144,6 +145,7 @@ function PlayState:update(dt)
                         highScores = self.highScores,
                         ball = self.ball,
                         recoverPoints = self.recoverPoints
+
                     })
                 end
 
@@ -200,25 +202,29 @@ function PlayState:update(dt)
     end
 
     -- if ball goes below bounds, revert to serve state and decrease health
-    if self.ball[1].y + 8 >= VIRTUAL_HEIGHT then
-        self.health = self.health - 1
-        gSounds['hurt']:play()
+    for k, ball in ipairs(self.ball) do
+        if k == 1 and ball.y + 8 >= VIRTUAL_HEIGHT then
+            self.health = self.health - 1
+            gSounds['hurt']:play()
 
-        if self.health == 0 then
-            gStateMachine:change('game-over', {
-                score = self.score,
-                highScores = self.highScores
-            })
-        else
-            gStateMachine:change('serve', {
-                paddle = self.paddle,
-                bricks = self.bricks,
-                health = self.health,
-                score = self.score,
-                highScores = self.highScores,
-                level = self.level,
-                recoverPoints = self.recoverPoints
-            })
+            if self.health == 0 then
+                gStateMachine:change('game-over', {
+                    score = self.score,
+                    highScores = self.highScores
+                })
+            else
+                gStateMachine:change('serve', {
+                    paddle = self.paddle,
+                    bricks = self.bricks,
+                    health = self.health,
+                    score = self.score,
+                    highScores = self.highScores,
+                    level = self.level,
+                    recoverPoints = self.recoverPoints
+                })
+            end
+        elseif k ~= 1 then
+            ball.dy = -ball.dy
         end
     end
 
@@ -242,10 +248,7 @@ function PlayState:update(dt)
                 local newBall = Ball()
                 newBall.x = self.ball[1].x + math.random(-10, -15)
                 newBall.y = self.ball[1].y + math.random(-10, -15)
-                local newSkin = (self.ball[1].skin + math.random(1, 6)) % 7
-                newSkin = newSkin > 0 and newSkin or 1
-                newSkin = newSkin == self.ball[1] and (newSkin + 1) % 7 or newSkin
-                newBall.skin = newSkin
+                newBall.skin = math.random(7)
                 newBall.dx = self.ball[1].dx + math.random(-10, -25)
                 newBall.dy = self.ball[1].dy + math.random(-10, -25)
                 table.insert(self.ball, newBall)
@@ -284,6 +287,9 @@ function PlayState:render()
 
     self.paddle:render()
     for k, ball in ipairs(self.ball) do
+        if k == 1 then
+            ball:blink()
+        end
         ball:render()
     end
 

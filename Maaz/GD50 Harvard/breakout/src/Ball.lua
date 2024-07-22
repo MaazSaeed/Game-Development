@@ -29,6 +29,8 @@ function Ball:init(skin)
     -- this will effectively be the color of our ball, and we will index
     -- our table of Quads relating to the global block texture using this
     self.skin = skin
+
+    self.flicker = false
 end
 
 --[[
@@ -60,6 +62,7 @@ function Ball:reset()
     self.y = VIRTUAL_HEIGHT / 2 - 2
     self.dx = 0
     self.dy = 0
+
 end
 
 function Ball:update(dt)
@@ -89,6 +92,21 @@ end
 function Ball:render()
     -- gTexture is our global texture for all blocks
     -- gBallFrames is a table of quads mapping to each individual ball skin in the texture
-    love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
-        self.x, self.y)
+    if self.flicker then
+    else
+        
+        love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
+            self.x, self.y)
+    end
+end
+
+
+function Ball:blink()
+    if FRAME_COUNT % 3 == 0 then
+        if self.flicker then
+            self.flicker = false
+        else
+            self.flicker = true
+        end
+    end
 end

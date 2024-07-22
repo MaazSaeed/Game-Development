@@ -29,6 +29,7 @@ function ServeState:enter(params)
     -- init new ball (random color for fun)
     self.balls = {[1] = Ball()}
     self.balls[1].skin = math.random(7)
+    self.balls[1].flicker = true
     --self.ball.skin = math.random(7)
 end
 
