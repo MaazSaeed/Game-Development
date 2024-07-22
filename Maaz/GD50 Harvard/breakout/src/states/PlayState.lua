@@ -224,6 +224,8 @@ function PlayState:update(dt)
                 newBall.dx = self.ball[1].dx + math.random(-10, -25)
                 newBall.dy = self.ball[1].dy + math.random(-10, -25)
                 table.insert(self.ball, newBall)
+
+                gSounds['powerup']:play()
             end
         end
 
