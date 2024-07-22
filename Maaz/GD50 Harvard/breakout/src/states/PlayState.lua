@@ -37,10 +37,20 @@ function PlayState:enter(params)
 
     -- if the paddle hsa collected a powerup
     self.amped = false
+
+    self.scoreExp = 1000
 end
 
 
 function PlayState:update(dt)
+
+    if self.score >= self.scoreExp and self.paddle.size <= 3 then
+        gSounds['paddle-ampup']:play()
+        self.paddle.size = self.paddle.size + 1
+        self.scoreExp = self.scoreExp * 2.5
+        -- clamp it to 4, as we have only 4 sizes of paddles
+    end
+
     if self.paused then
         if love.keyboard.wasPressed('space') then
             self.paused = false
