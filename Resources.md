@@ -18,4 +18,5 @@
 
 ## Misc
 - Hackernews discussion on how to write a good readme.md file [here](https://news.ycombinator.com/item?id=36773022).
-- Learn OpenGL website [link](https://learnopengl.com/)  
+- Learn OpenGL website [link](https://learnopengl.com/)
+- Red Blob Games - for discussion on various topics related to algorithms, game dev, and more... [link](https://www.redblobgames.com/)
