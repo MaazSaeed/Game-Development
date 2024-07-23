@@ -101,6 +101,7 @@ function love.load()
         ['fail'] = love.audio.newSource('sounds/fail.wav', 'static'),
         ['unlocked'] = love.audio.newSource('sounds/unlocked.wav', 'static'),
         ['hooray'] = love.audio.newSource('sounds/hooray.wav', 'static'),
+        ['keypick'] = love.audio.newSource('sounds/keypick.wav', 'static'),
         ['music'] = love.audio.newSource('sounds/music.wav', 'static')
     }
 

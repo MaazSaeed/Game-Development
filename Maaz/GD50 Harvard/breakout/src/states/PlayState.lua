@@ -21,10 +21,6 @@ PlayState = Class{__includes = BaseState}
     states as we go from playing to serving.
 ]]
 
-function PlayState:init()
-    self.hasKey = false
-end
-
 function PlayState:enter(params)
     self.paddle = params.paddle
     self.bricks = params.bricks
@@ -35,6 +31,7 @@ function PlayState:enter(params)
     self.level = params.level
 
     self.recoverPoints = 5000
+    self.hasKey = params.hasKey or false
 
     -- give ball random starting velocity
     self.ball[1].dx = math.random(-100, 100)
@@ -44,8 +41,10 @@ function PlayState:enter(params)
     self.amped = false
 
     self.scoreExp = 1000
-end
 
+    -- play sound when key has been collected
+    self.keySet = false
+end
 
 function PlayState:update(dt)
 
@@ -203,7 +202,7 @@ function PlayState:update(dt)
 
     -- if ball goes below bounds, revert to serve state and decrease health
     for k, ball in ipairs(self.ball) do
-        if k == 1 and ball.y + 8 >= VIRTUAL_HEIGHT then
+        if k == 1 and ball.y >= VIRTUAL_HEIGHT then
             self.health = self.health - 1
             gSounds['hurt']:play()
 
@@ -220,10 +219,13 @@ function PlayState:update(dt)
                     score = self.score,
                     highScores = self.highScores,
                     level = self.level,
-                    recoverPoints = self.recoverPoints
+                    recoverPoints = self.recoverPoints,
+                    hasKey = self.hasKey,
+                    keySet = false
                 })
             end
-        elseif k ~= 1 then
+        elseif k ~= 1 and ball.y >= VIRTUAL_HEIGHT then
+            -- if the ball is not the main ball which has the id of 1 then it should bounce off the bottom edge of the screen
             ball.dy = -ball.dy
         end
     end
@@ -297,6 +299,14 @@ function PlayState:render()
     if self.paused then
         love.graphics.setFont(gFonts['large'])
         love.graphics.printf("PAUSED", 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
+    end
+
+    if self.hasKey then
+        love.graphics.draw(gTextures['powerups'], gFrames['powerup'][10], VIRTUAL_WIDTH - 115, 3, 0, 0.6, 0.59)
+        if not self.keySet then
+            gSounds['keypick']:play()
+            self.keySet = true
+        end
     end
 
 end
