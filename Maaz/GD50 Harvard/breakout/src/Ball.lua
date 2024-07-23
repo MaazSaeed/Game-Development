@@ -93,20 +93,11 @@ function Ball:render()
     -- gTexture is our global texture for all blocks
     -- gBallFrames is a table of quads mapping to each individual ball skin in the texture
     if self.flicker then
-    else
-        
-        love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
-            self.x, self.y)
+        Timer.every(1, function() 
+            self.skin = math.random(7)
+         end)
     end
-end
 
-
-function Ball:blink()
-    if FRAME_COUNT % 3 == 0 then
-        if self.flicker then
-            self.flicker = false
-        else
-            self.flicker = true
-        end
-    end
+    love.graphics.draw(gTextures['main'], gFrames['balls'][self.skin],
+        self.x, self.y)
 end

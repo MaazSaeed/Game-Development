@@ -287,9 +287,6 @@ function PlayState:render()
 
     self.paddle:render()
     for k, ball in ipairs(self.ball) do
-        if k == 1 then
-            ball:blink()
-        end
         ball:render()
     end
 

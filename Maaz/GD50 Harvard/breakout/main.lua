@@ -165,6 +165,8 @@ function love.update(dt)
     love.keyboard.keysPressed = {}
 
     FRAME_COUNT = FRAME_COUNT + 1
+    
+    Timer.update(dt)
 end
 
 --[[

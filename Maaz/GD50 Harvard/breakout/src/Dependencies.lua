@@ -12,6 +12,9 @@ push = require 'lib/push'
 -- https://github.com/vrld/hump/blob/master/class.lua
 Class = require 'lib/class'
 
+-- Timer class allowing us to invoke an anonymous function every interval seconds either indefinitely or once
+Timer = require 'lib/knife/timer'
+
 -- a few global constants, centralized
 require 'src/constants'
 
