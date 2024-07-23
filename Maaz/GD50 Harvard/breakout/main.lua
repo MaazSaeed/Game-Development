@@ -30,7 +30,9 @@ require 'src/Dependencies'
     Called just once at the beginning of the game; used to set up
     game objects, variables, etc. and prepare the game world.
 ]]
+
 function love.load()
+
     -- set love's default filter to "nearest-neighbor", which essentially
     -- means there will be no filtering of pixels (blurriness), which is
     -- important for a nice crisp, 2D look
@@ -39,6 +41,7 @@ function love.load()
     -- seed the RNG so that calls to random are always random
     math.randomseed(os.time())
 
+    BACKGROUND = math.random(3)
     -- set the application title bar
     love.window.setTitle('Breakout')
 
@@ -53,6 +56,7 @@ function love.load()
     -- load up the graphics we'll be using throughout our states
     gTextures = {
         ['background'] = love.graphics.newImage('graphics/background.png'),
+        ['newbg'] = love.graphics.newImage('graphics/backgrounds.png'),
         ['main'] = love.graphics.newImage('graphics/breakout.png'),
         ['arrows'] = love.graphics.newImage('graphics/arrows.png'),
         ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
@@ -69,7 +73,8 @@ function love.load()
         ['bricks'] = GenerateQuadsBricks(gTextures['main']),
         ['hearts'] = GenerateQuads(gTextures['hearts'], 10, 9),
         ['powerup'] = GenerateQuadsPowerup(gTextures['powerups'], 16, 16),
-        ['locked-brick'] = GenerateQuadLockedBrick(gTextures['main'], 32, 16)
+        ['locked-brick'] = GenerateQuadLockedBrick(gTextures['main'], 32, 16),
+        ['bgs'] = GenerateQuads(gTextures['newbg'], 256, 128)
     }
     
     -- initialize our virtual resolution, which will be rendered within our
@@ -204,17 +209,12 @@ function love.draw()
 
     -- background should be drawn regardless of state, scaled to fit our
     -- virtual resolution
-    local backgroundWidth = gTextures['background']:getWidth()
-    local backgroundHeight = gTextures['background']:getHeight()
+    local backgroundWidth = 256
+    local backgroundHeight = 128
 
-    love.graphics.draw(gTextures['background'], 
-        -- draw at coordinates 0, 0
-        0, 0, 
-        -- no rotation
-        0,
-        -- scale factors on X and Y axis so it fills the screen
-        VIRTUAL_WIDTH / (backgroundWidth - 1), VIRTUAL_HEIGHT / (backgroundHeight - 1))
-    
+    love.graphics.draw(gTextures['newbg'], gFrames['bgs'][BACKGROUND],
+    0, 0, 0, VIRTUAL_WIDTH / (backgroundWidth - 1), VIRTUAL_HEIGHT / (backgroundHeight - 1))
+
     -- use the state machine to defer rendering to the current state we're in
     gStateMachine:render()
     
