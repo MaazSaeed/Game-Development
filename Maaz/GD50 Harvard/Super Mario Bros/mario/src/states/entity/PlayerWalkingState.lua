@@ -20,6 +20,7 @@ end
 function PlayerWalkingState:update(dt)
     self.player.currentAnimation:update(dt)
 
+    
     -- idle if we're not pressing anything at all
     if not love.keyboard.isDown('left') and not love.keyboard.isDown('right') then
         self.player:changeState('idle')
@@ -56,6 +57,7 @@ function PlayerWalkingState:update(dt)
             gStateMachine:change('start')
         end
     end
+
 
     if love.keyboard.wasPressed('space') then
         self.player:changeState('jump')

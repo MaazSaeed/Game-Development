@@ -18,8 +18,6 @@ function PlayState:init()
     self.gravityOn = true
     self.gravityAmount = 6
     
-    self:enter({levelNumber = 1})
-
     self.player = Player({
         x = (self.level.landingSpotX - 1) * TILE_SIZE, y = 0,
         width = 16, height = 20,
@@ -32,12 +30,12 @@ function PlayState:init()
         },
         map = self.tileMap,
         level = self.level,
-        levelNumber = self.levelNumber
     })
 
     self:spawnEnemies()
 
     self.player:changeState('falling')
+
 end
 
 function PlayState:enter(params)
