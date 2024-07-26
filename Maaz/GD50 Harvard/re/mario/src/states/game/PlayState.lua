@@ -92,7 +92,7 @@ function PlayState:render()
     
     -- render the key's status
     if self.key then
-        love.graphics.draw(gTextures[self.key.texture], gFrames[self.key.texture][self.key.frame], VIRTUAL_WIDTH - 20, 5)
+        love.graphics.draw(gTextures[self.key.texture], gFrames[self.key.texture][self.key.frame], VIRTUAL_WIDTH - 20, 4)
     end
     -- render score
     love.graphics.setFont(gFonts['medium'])
@@ -100,6 +100,9 @@ function PlayState:render()
     love.graphics.print(tostring(self.player.score), 5, 5)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print(tostring(self.player.score), 4, 4)
+
+    love.graphics.setColor(0, 0, 0, 1)
+    love.graphics.print(tostring(self.levelNumber), VIRTUAL_WIDTH / 2, 5)
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.print(tostring(self.levelNumber), VIRTUAL_WIDTH / 2, 4)
 end
