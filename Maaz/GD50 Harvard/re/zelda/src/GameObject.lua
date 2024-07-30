@@ -19,9 +19,6 @@ function GameObject:init(def, x, y)
     -- whether it acts as an obstacle or not
     self.solid = def.solid
 
-    -- whether the object can be consumed by the player e.g., to gain health, powerup etc.
-    self.consumable = false
-
     self.defaultState = def.defaultState
     self.state = self.defaultState
     self.states = def.states
@@ -41,6 +38,6 @@ function GameObject:update(dt)
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
-    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.state and self.states[self.state].frame or self.frame],
+    love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.states[self.state].frame or self.frame],
         self.x + adjacentOffsetX, self.y + adjacentOffsetY)
 end

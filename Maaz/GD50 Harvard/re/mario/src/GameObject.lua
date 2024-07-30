@@ -21,10 +21,10 @@ function GameObject:init(def)
     self.onCollide = def.onCollide
     self.onConsume = def.onConsume
     self.hit = def.hit
-    self.refOther = def.refOther or nil
-    self.show = not (def.texture == 'flags-posts' or def.texture == 'flags')
-    self.flag = def.flag or nil
 
+    self.refOther = def.refOther or nil
+    self.show = not (def.texture == 'flags-posts')
+    self.flag = def.flag or nil
     self.animation = def.animation or nil
 end
 
@@ -46,6 +46,4 @@ function GameObject:render()
             love.graphics.draw(gTextures[self.texture], gFrames[self.flag][self.animation:getCurrentFrame()], self.x + self.width / 2, self.y, 0, -1, 1)
         end
     end
-
-
 end

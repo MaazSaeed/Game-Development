@@ -32,10 +32,10 @@ function LevelMaker.generate(width, height)
 
     -- the key will spawn somewhere in the middle of the level
     -- multiplying by the TILE_SIZE to get the x-coordinate of the Love2D world
-    local keySpawnTile = math.random(80, width)
+    local keySpawnTile = math.random(width)
     local keySpawnX = (keySpawnTile - 1) * TILE_SIZE 
 
-    local lockSpawnTile = math.random(-5, width)
+    local lockSpawnTile = math.random(width)
 
     local lockframe = nil
 
