@@ -206,7 +206,6 @@ function Room:update(dt)
                 object:onCollide()
             end
         end
-
     end
 end
 
