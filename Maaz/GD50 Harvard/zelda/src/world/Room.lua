@@ -122,6 +122,25 @@ function Room:generateObjects()
 
     -- add to list of objects in scene (only one switch for now)
     table.insert(self.objects, switch)
+
+
+    for i = 1, 6 do
+        if POT_SPAWN_CHANCE() then
+            local pot = GameObject(
+            GAME_OBJECT_DEFS['pot'],
+            math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
+                        VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
+            math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
+                        VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
+            )
+            pot.onConsume = function()
+                self.player:changeState('lift-pot', {player = self.player})
+                --self.player:changeState('carry-pot')
+            end
+            table.insert(self.objects, pot)
+        end
+    end
+
 end
 
 --[[
@@ -178,8 +197,8 @@ function Room:update(dt)
         if entity.health <= 0 and not entity.dead then
             entity.dead = true
 
-            -- 0.25 chance of a heart spawning
-            if math.random(4) == 1 then
+            -- Chance of a heart being spawned, function stored in the constants.lua 
+            if HEART_SPAWN_CHANCE() then
                 Event.dispatch('spawn-heart', {x = entity.x - 8, y = entity.y + 8})
             end
 
@@ -209,7 +228,7 @@ function Room:update(dt)
                 object:onConsume()
                 table.remove(self.objects, k)
             else
-                object:onCollide()
+                object:onCollide(self.player)
             end
         end
     end

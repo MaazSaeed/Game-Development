@@ -20,7 +20,7 @@ function GameObject:init(def, x, y)
     self.solid = def.solid
 
     -- whether the object can be consumed by the player e.g., to gain health, powerup etc.
-    self.consumable = false
+    self.consumable = def.consumable
 
     self.defaultState = def.defaultState
     self.state = self.defaultState

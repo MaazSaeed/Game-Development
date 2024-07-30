@@ -30,11 +30,18 @@ GAME_OBJECT_DEFS = {
         frame = 5,
         width = 16,
         height = 16,
-        solid = false
+        solid = false,
+        consumable = true
     }
     ,
 
     ['pot'] = {
-        -- TODO
+        type = 'pot',
+        texture = 'tiles',
+        width = 16,
+        height = 16,
+        frame = TILE_POTS[math.random(#TILE_POTS)],
+        solid = false,
+        consumable = true
     }
 }
