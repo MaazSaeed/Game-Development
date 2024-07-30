@@ -52,6 +52,7 @@ function Room:init(player)
         heart.onConsume = function(params)
             self.player.health = self.player.health + 2
             self.player.health = math.min(6, self.player.health)
+            gSounds['heart']:play()
         end
     
         table.insert(self.objects, heart)
@@ -176,7 +177,12 @@ function Room:update(dt)
         -- remove entity from the table if health is <= 0
         if entity.health <= 0 and not entity.dead then
             entity.dead = true
-            Event.dispatch('spawn-heart', {x = entity.x, y = entity.y})
+
+            -- 0.25 chance of a heart spawning
+            if math.random(4) == 1 then
+                Event.dispatch('spawn-heart', {x = entity.x - 8, y = entity.y + 8})
+            end
+
         elseif not entity.dead then
             entity:processAI({room = self}, dt)
             entity:update(dt)
