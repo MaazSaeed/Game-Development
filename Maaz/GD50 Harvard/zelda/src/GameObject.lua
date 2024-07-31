@@ -1,11 +1,3 @@
---[[
-    GD50
-    Legend of Zelda
-
-    Author: Colton Ogden
-    cogden@cs50.harvard.edu
-]]
-
 GameObject = Class{}
 
 function GameObject:init(def, x, y)
@@ -20,7 +12,7 @@ function GameObject:init(def, x, y)
     self.solid = def.solid
 
     -- whether the object can be consumed by the player e.g., to gain health, powerup etc.
-    self.consumable = false
+    self.consumable = def.consumable
 
     self.defaultState = def.defaultState
     self.state = self.defaultState
@@ -34,10 +26,55 @@ function GameObject:init(def, x, y)
 
     -- default empty collision callback
     self.onCollide = function() end
+
+    self.dx = 0
+    self.dy = 0
+
+    self.destroy = false
+
+    self.distanceTravelled = 0
+    self.projectile = false
 end
 
 function GameObject:update(dt)
+    self.x = self.x + self.dx * dt
+    self.y = self.y + self.dy * dt
+    if self.projectile then
+        self.distanceTravelled = self.distanceTravelled + THROW_THRUST * dt
+    end
+end
 
+function GameObject:throw(dir)
+    if dir == 'left' then
+        self.dx = -THROW_THRUST
+        self.dy = 0
+    elseif dir == 'right' then
+        self.dx = THROW_THRUST
+        self.dy = 0
+    elseif dir == 'up' then
+        self.dx = 0
+        self.dy = -THROW_THRUST
+    elseif dir == 'down' then
+        self.dx = 0
+        self.dy = THROW_THRUST
+    end
+
+    self.projectile = true
+end
+
+function GameObject:destroy()
+    self.destroy = true
+end
+
+function GameObject:collidesWithBoundaries()
+    if self.x <= MAP_RENDER_OFFSET_X + TILE_SIZE or
+       self.x + self.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 or
+       self.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.height / 2 or
+       self.y + self.height >= VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
+            + MAP_RENDER_OFFSET_Y - TILE_SIZE
+       then
+        return true
+    end     
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)

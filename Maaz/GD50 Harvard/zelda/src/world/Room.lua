@@ -122,6 +122,31 @@ function Room:generateObjects()
 
     -- add to list of objects in scene (only one switch for now)
     table.insert(self.objects, switch)
+
+
+    for i = 1, 4 do
+        if true then
+            local pot = GameObject(
+            GAME_OBJECT_DEFS['pot'],
+            math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
+                        VIRTUAL_WIDTH - TILE_SIZE * 2 - 16),
+            math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
+                        VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
+            )
+            pot.onCollide = function()
+                -- pickup pot on pressing return key near the pot
+                if not self.player.hasPot and love.keyboard.wasPressed('return') then
+                     self.player:changeState('lift-pot', {player = self.player})
+                     self.player.hasPot = true
+                     self.player.holdingPot = pot
+                else
+                    
+                end
+            end
+            table.insert(self.objects, pot)
+        end
+    end
+
 end
 
 --[[
@@ -178,8 +203,8 @@ function Room:update(dt)
         if entity.health <= 0 and not entity.dead then
             entity.dead = true
 
-            -- 0.25 chance of a heart spawning
-            if math.random(4) == 1 then
+            -- Chance of a heart being spawned, function stored in the constants.lua 
+            if HEART_SPAWN_CHANCE() then
                 Event.dispatch('spawn-heart', {x = entity.x - 8, y = entity.y + 8})
             end
 
@@ -198,6 +223,27 @@ function Room:update(dt)
                 gStateMachine:change('game-over')
             end
         end
+
+        for k, object in pairs(self.objects) do
+            if entity:collides(object) and object.type == 'pot' and object.distanceTravelled > 0 then
+                entity:damage(1)
+                gSounds['kill']:play()
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+            -- Destroy the pot when it is thrown, and travels a distance of more than 5 tiles
+            if object.type == 'pot' and object.distanceTravelled > TILE_SIZE * 5 then
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+
+            if object:collidesWithBoundaries() and object.type == 'pot' then
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+
+        end
+
     end
 
     for k, object in pairs(self.objects) do
@@ -209,7 +255,10 @@ function Room:update(dt)
                 object:onConsume()
                 table.remove(self.objects, k)
             else
-                object:onCollide()
+                -- The pot shall not trigger any collision with the player if the player has the current pot equipped and throws it
+                if not (object.distanceTravelled > 0) then
+                    object:onCollide(self.player)
+                end
             end
         end
     end
@@ -231,14 +280,15 @@ function Room:render()
         doorway:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
 
-    for k, object in pairs(self.objects) do
-        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
-    end
 
     for k, entity in pairs(self.entities) do
         if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
     end
 
+    
+    for k, object in pairs(self.objects) do
+        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
     -- stencil out the door arches so it looks like the player is going through
     love.graphics.stencil(function()
         
