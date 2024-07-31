@@ -134,12 +134,14 @@ function Room:generateObjects()
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
             )
             pot.onCollide = function()
-                if not self.player.hasPot then
+                -- pickup pot on pressing return key near the pot
+                if not self.player.hasPot and love.keyboard.wasPressed('return') then
                      self.player:changeState('lift-pot', {player = self.player})
                      self.player.hasPot = true
                      self.player.holdingPot = pot
+                else
+                    
                 end
-                --self.player:changeState('carry-pot')
             end
             table.insert(self.objects, pot)
         end
@@ -253,7 +255,10 @@ function Room:update(dt)
                 object:onConsume()
                 table.remove(self.objects, k)
             else
-                object:onCollide(self.player)
+                -- The pot shall not trigger any collision with the player if the player has the current pot equipped and throws it
+                if not (object.distanceTravelled > 0) then
+                    object:onCollide(self.player)
+                end
             end
         end
     end
@@ -275,14 +280,15 @@ function Room:render()
         doorway:render(self.adjacentOffsetX, self.adjacentOffsetY)
     end
 
-    for k, object in pairs(self.objects) do
-        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
-    end
 
     for k, entity in pairs(self.entities) do
         if not entity.dead then entity:render(self.adjacentOffsetX, self.adjacentOffsetY) end
     end
 
+    
+    for k, object in pairs(self.objects) do
+        object:render(self.adjacentOffsetX, self.adjacentOffsetY)
+    end
     -- stencil out the door arches so it looks like the player is going through
     love.graphics.stencil(function()
         

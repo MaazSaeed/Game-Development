@@ -23,6 +23,12 @@ function PlayerCarryPotState:update(dt)
         self.entity:changeAnimation('pot-down')
     else
         self.entity:changeAnimation('pot-idle-'..self.entity.direction)
+        if love.keyboard.wasPressed('space') then
+            self.entity:resetPot({x = self.entity.x, y = self.entity.y})
+            self.entity.holdingPot:throw(self.entity.direction)
+            self.entity:changeState('pot-throw')
+            gSounds['throw-pot']:play()
+        end
         return 
     end
 
