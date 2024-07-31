@@ -41,7 +41,7 @@ GAME_OBJECT_DEFS = {
         width = 16,
         height = 16,
         frame = TILE_POTS[math.random(#TILE_POTS)],
-        solid = false,
-        consumable = true
+        solid = true,
+        consumable = false
     }
 }

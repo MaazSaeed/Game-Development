@@ -132,11 +132,6 @@ ENTITY_DEFS = {
                 interval = 0.25 ,
                 texture = 'character-lift-pot'
             }
-
-            
-
-
-
         }
     },
     ['skeleton'] = {

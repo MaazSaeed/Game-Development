@@ -22,11 +22,15 @@ function PlayerCarryPotState:update(dt)
         self.entity.direction = 'down'
         self.entity:changeAnimation('pot-down')
     else
-        self.entity:changeState('pot-idle')
+        self.entity:changeAnimation('pot-idle-'..self.entity.direction)
+        return 
     end
 
     if love.keyboard.wasPressed('space') then
-        --self.entity:changeState('swing-sword')
+        self.entity:resetPot({x = self.entity.x, y = self.entity.y})
+        self.entity.holdingPot:throw(self.entity.direction)
+        self.entity:changeState('idle')
+        gSounds['throw-pot']:play()
     end
 
     -- perform base collision detection against walls

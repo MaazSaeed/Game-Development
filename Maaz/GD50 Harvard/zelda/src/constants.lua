@@ -60,3 +60,5 @@ TILE_POTS = {
 
 HEART_SPAWN_CHANCE = function() return math.random(4) == 1 end
 POT_SPAWN_CHANCE = function() return math.random(3) == 1 end
+
+THROW_THRUST = 100

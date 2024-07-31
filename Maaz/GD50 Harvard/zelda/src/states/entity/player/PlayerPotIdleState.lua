@@ -12,4 +12,11 @@ function PlayerPotIdleState:update(dt)
     end
 
     self.entity:changeAnimation('pot-idle-' .. self.entity.direction)
+
+    if love.keyboard.wasPressed('space') then
+        self.entity:resetPot({x = self.entity.x, y = self.entity.y})
+        self.entity.holdingPot:throw(self.entity.direction)
+        self.entity:changeState('idle')
+        gSounds['throw-pot']:play()
+    end
 end

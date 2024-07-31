@@ -124,8 +124,8 @@ function Room:generateObjects()
     table.insert(self.objects, switch)
 
 
-    for i = 1, 6 do
-        if POT_SPAWN_CHANCE() then
+    for i = 1, 4 do
+        if true then
             local pot = GameObject(
             GAME_OBJECT_DEFS['pot'],
             math.random(MAP_RENDER_OFFSET_X + TILE_SIZE,
@@ -133,10 +133,11 @@ function Room:generateObjects()
             math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
             )
-            pot.onConsume = function()
-                if not self.player.holdingPot then
+            pot.onCollide = function()
+                if not self.player.hasPot then
                      self.player:changeState('lift-pot', {player = self.player})
-                     self.player.holdingPot = {texture = 'tiles', frame = pot.frame, x = pot.x, y = pot.y}
+                     self.player.hasPot = true
+                     self.player.holdingPot = pot
                 end
                 --self.player:changeState('carry-pot')
             end
@@ -220,6 +221,16 @@ function Room:update(dt)
                 gStateMachine:change('game-over')
             end
         end
+
+        for k, object in pairs(self.objects) do
+            if entity:collides(object) and object.type == 'pot' and (object.dx ~= 0 or object.dy ~= 0) then
+                entity:damage(1)
+                gSounds['kill']:play()
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+        end
+
     end
 
     for k, object in pairs(self.objects) do
