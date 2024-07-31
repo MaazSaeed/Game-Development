@@ -29,11 +29,19 @@ function GameObject:init(def, x, y)
 
     self.dx = 0
     self.dy = 0
+
+    self.destroy = false
+
+    self.distanceTravelled = 0
+    self.projectile = false
 end
 
 function GameObject:update(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+    if self.projectile then
+        self.distanceTravelled = self.distanceTravelled + THROW_THRUST * dt
+    end
 end
 
 function GameObject:throw(dir)
@@ -50,8 +58,24 @@ function GameObject:throw(dir)
         self.dx = 0
         self.dy = THROW_THRUST
     end
+
+    self.projectile = true
 end
 
+function GameObject:destroy()
+    self.destroy = true
+end
+
+function GameObject:collidesWithBoundaries()
+    if self.x <= MAP_RENDER_OFFSET_X + TILE_SIZE or
+       self.x + self.width >= VIRTUAL_WIDTH - TILE_SIZE * 2 or
+       self.y <= MAP_RENDER_OFFSET_Y + TILE_SIZE - self.height / 2 or
+       self.y + self.height >= VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) 
+            + MAP_RENDER_OFFSET_Y - TILE_SIZE
+       then
+        return true
+    end     
+end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.state and self.states[self.state].frame or self.frame],

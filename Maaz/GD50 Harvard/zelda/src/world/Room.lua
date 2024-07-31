@@ -223,12 +223,23 @@ function Room:update(dt)
         end
 
         for k, object in pairs(self.objects) do
-            if entity:collides(object) and object.type == 'pot' and (object.dx ~= 0 or object.dy ~= 0) then
+            if entity:collides(object) and object.type == 'pot' and object.distanceTravelled > 0 then
                 entity:damage(1)
                 gSounds['kill']:play()
                 gSounds['pot-break']:play()
                 table.remove(self.objects, k)
             end
+            -- Destroy the pot when it is thrown, and travels a distance of more than 5 tiles
+            if object.type == 'pot' and object.distanceTravelled > TILE_SIZE * 5 then
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+
+            if object:collidesWithBoundaries() and object.type == 'pot' then
+                gSounds['pot-break']:play()
+                table.remove(self.objects, k)
+            end
+
         end
 
     end
