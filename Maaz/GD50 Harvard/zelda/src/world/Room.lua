@@ -134,7 +134,10 @@ function Room:generateObjects()
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
             )
             pot.onConsume = function()
-                self.player:changeState('lift-pot', {player = self.player})
+                if not self.player.holdingPot then
+                     self.player:changeState('lift-pot', {player = self.player})
+                     self.player.holdingPot = {texture = 'tiles', frame = pot.frame, x = pot.x, y = pot.y}
+                end
                 --self.player:changeState('carry-pot')
             end
             table.insert(self.objects, pot)
