@@ -25,5 +25,4 @@ function PlayerIdleState:update(dt)
         self.entity:changeState('swing-sword')
     end
 
-
 end

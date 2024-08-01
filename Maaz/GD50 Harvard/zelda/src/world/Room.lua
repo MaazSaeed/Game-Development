@@ -134,14 +134,6 @@ function Room:generateObjects()
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
             )
             pot.onCollide = function(player, dt)
-                -- pickup pot on pressing return key near the pot
-                
-                if not player.hasPot and love.keyboard.wasPressed('return') then
-                    player:changeState('lift-pot', {player = player})
-                    player.hasPot = true
-                    player.holdingPot = pot
-                end
-                
                 local direction = player.direction
                 if direction == 'left' then
                     player.x = player.x + player.walkSpeed * dt 
@@ -200,7 +192,7 @@ function Room:generateWallsAndFloors()
 end
 
 function Room:update(dt)
-    
+
     -- don't update anything if we are sliding to another room (we have offsets)
     if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
 
@@ -258,6 +250,14 @@ function Room:update(dt)
             if object:collidesWithBoundaries() and object.type == 'pot' and object.projectile then
                 gSounds['pot-break']:play()
                 table.remove(self.objects, k)
+            end
+
+            if object.type == 'pot' and object:nearHitBox(self.player) then             
+                if not self.player.hasPot and love.keyboard.wasPressed('return') then
+                    self.player:changeState('lift-pot', {player = self.player})
+                    self.player.hasPot = true
+                    self.player.holdingPot = object
+                end
             end
 
         end

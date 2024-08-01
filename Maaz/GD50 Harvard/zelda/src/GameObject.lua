@@ -78,6 +78,12 @@ function GameObject:collidesWithBoundaries()
     end     
 end
 
+-- check if an entity is in the proximity of the given game object
+function GameObject:nearHitBox(entity)
+    return entity.x + entity.width >= self.x - 5 and entity.x <= self.x + self.width + 5 and
+           entity.y + entity.height >= self.y - 5 and entity.y - entity.height <= self.y + self.height + 5
+end
+
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
     love.graphics.draw(gTextures[self.texture], gFrames[self.texture][self.state and self.states[self.state].frame or self.frame],
         self.x + adjacentOffsetX, self.y + adjacentOffsetY)
