@@ -34,6 +34,7 @@ function GameObject:init(def, x, y)
 
     self.distanceTravelled = 0
     self.projectile = false
+    
 end
 
 function GameObject:update(dt)
