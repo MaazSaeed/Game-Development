@@ -133,16 +133,18 @@ function Room:generateObjects()
             math.random(MAP_RENDER_OFFSET_Y + TILE_SIZE,
                         VIRTUAL_HEIGHT - (VIRTUAL_HEIGHT - MAP_HEIGHT * TILE_SIZE) + MAP_RENDER_OFFSET_Y - TILE_SIZE - 16)
             )
-            pot.onCollide = function()
-                -- pickup pot on pressing return key near the pot
-                if not self.player.hasPot and love.keyboard.wasPressed('return') then
-                     self.player:changeState('lift-pot', {player = self.player})
-                     self.player.hasPot = true
-                     self.player.holdingPot = pot
-                else
-                    
+            pot.onCollide = function(player, dt)
+                local direction = player.direction
+                if direction == 'left' then
+                    player.x = player.x + player.walkSpeed * dt 
+                elseif direction == 'right' then
+                    player.x = player.x - player.walkSpeed * dt 
+                elseif direction == 'up' then
+                    player.y = player.y + player.walkSpeed * dt 
+                elseif direction == 'down' then
+                    player.y = player.y - player.walkSpeed * dt 
                 end
-            end
+            end            
             table.insert(self.objects, pot)
         end
     end
@@ -190,7 +192,7 @@ function Room:generateWallsAndFloors()
 end
 
 function Room:update(dt)
-    
+
     -- don't update anything if we are sliding to another room (we have offsets)
     if self.adjacentOffsetX ~= 0 or self.adjacentOffsetY ~= 0 then return end
 
@@ -231,15 +233,31 @@ function Room:update(dt)
                 gSounds['pot-break']:play()
                 table.remove(self.objects, k)
             end
+
+            if entity:collides(object) and object.type == 'pot' and object.distanceTravelled <= 0 then
+                object.onCollide(entity, dt)
+                entity:changeState('idle')
+                Timer.after(2, function() entity:changeState('walk') end)
+            end 
+
             -- Destroy the pot when it is thrown, and travels a distance of more than 5 tiles
             if object.type == 'pot' and object.distanceTravelled > TILE_SIZE * 5 then
                 gSounds['pot-break']:play()
                 table.remove(self.objects, k)
             end
 
-            if object:collidesWithBoundaries() and object.type == 'pot' then
+            -- if the pot has projectile state set to true only then check its collision with the boundaries and shatter if so
+            if object:collidesWithBoundaries() and object.type == 'pot' and object.projectile then
                 gSounds['pot-break']:play()
                 table.remove(self.objects, k)
+            end
+
+            if object.type == 'pot' and object:nearHitBox(self.player) then             
+                if not self.player.hasPot and love.keyboard.wasPressed('return') then
+                    self.player:changeState('lift-pot', {player = self.player})
+                    self.player.hasPot = true
+                    self.player.holdingPot = object
+                end
             end
 
         end
@@ -257,7 +275,7 @@ function Room:update(dt)
             else
                 -- The pot shall not trigger any collision with the player if the player has the current pot equipped and throws it
                 if not (object.distanceTravelled > 0) then
-                    object:onCollide(self.player)
+                    object.onCollide(self.player, dt)
                 end
             end
         end

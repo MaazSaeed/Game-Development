@@ -34,6 +34,7 @@ function GameObject:init(def, x, y)
 
     self.distanceTravelled = 0
     self.projectile = false
+    
 end
 
 function GameObject:update(dt)
@@ -75,6 +76,12 @@ function GameObject:collidesWithBoundaries()
        then
         return true
     end     
+end
+
+-- check if an entity is in the proximity of the given game object
+function GameObject:nearHitBox(entity)
+    return entity.x + entity.width >= self.x - 5 and entity.x <= self.x + self.width + 5 and
+           entity.y + entity.height >= self.y - 5 and entity.y - entity.height <= self.y + self.height + 5
 end
 
 function GameObject:render(adjacentOffsetX, adjacentOffsetY)
