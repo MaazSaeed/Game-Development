@@ -1,31 +1,34 @@
 # Lecture 09: Introduction to Geometry (CMU 15-462/662)
 
-Geometric processing and geometric modelling
+In this article we will look at geometric processing and geometric modelling and try to model complex shapes using geometry and understand how to add geometric complexity.
 
-Try to model complex shapes
-
-How to add geometric complexity
-
-What is geometry?
+Before we start, we must ask ourselves a simple question: 
+#### What is geometry?
 1. The study of shapes, sizes, patterns and positions.
 2. The study of spaces where some quantity can be measured.
 
-How to describe a given piece of geometry?
-How can we use digital data to encode shape?
-How to describe a shape?
-Linguistic: circle
-Mathematically: $x^2 + y^2 = 1$
-Allows you to describe which points are inside the circle
-Explicit: $(cos\theta, sin\theta)$ (i.e. x and y)
-Any other encodings of the circle?
-In terms of calculus, you could say the path traced out by the earth around the sun -> solution to the equation gives a curve
-Discrete: approximate the circle by a polygon
-Symmetry: stays the same regardless of how you rotate it
-Curvature: $k = 1$
+This leads to more questions:
+- How to describe a given piece of geometry?
+- How can we use digital data to encode shape?
+- How to describe a shape?
 
-Many different ways to characterise a shape.
+There are multiple ways of describing something. If you were given the following diagram and were asked to describe it, what would you say?
 
-Given all these options, which is the best way to encode geometry on a computer?
+<img src="image.png" alt="alt text" width="25%">
+
+- The most natural is the linguistic way, which in this case would be saying, the diagram shows a circle.
+- In mathematical terms one can express it as: $x^2 + y^2 = 1$. Thia allows you to describe which points lie inside the circle.
+- An explicit way to describe it would be: $(cos\theta, sin\theta)$, where the expression represents the $x$ and $y$ values.
+
+These are the most obvious ways of describing the unit circle. Are there any other encodings of it?
+
+Well if you think about it, nothing is stopping you from coming up with more definitions, for example:
+- In terms of calculus, you could think of it as the path traced out by the earth around the sun, solution to the equation gives a curve.
+- In discrete terms, you could approximate the circle by a polygon and get a discrete representation of it.
+- You could say that a circle is entirely symmetric, it stays the same regardless of how much you rotate it.
+- One way could be based on the curvature always being 1, i.e., $k = 1$.
+
+The point of this discussion was to show you that there are many different ways to characterise a shape, but the issue with having a million options is the overwhelming aspect they bring along, making it difficult to narrow the options to just one. Hence, one must ask here, given all these options, which is the best way to encode geometry on a computer? To answer this question, we need to look at some more things.
 
 Geometry in the real world can be extremely complex:
 - how to show a cloth blowing in the wind?
@@ -34,8 +37,9 @@ Geometry in the real world can be extremely complex:
 - how to show volumetric aspect of a shape?
 - how to show the shape of cells, proteins, etc?
 
-Two big categories of encoding geometry:
+We then come up with two big categories of encoding geometry:
 1. Explicit representations
+Explicit representations have points that represent the surfaces and are plotted to get the required shape.
 - point cloud
 - polygon mesh (points and connections)
 - subdivision, NURBS
@@ -183,6 +187,7 @@ To have a nice, seamless transition from one piece to the next, there are two re
 1. the endpoints must meet so that there are no gaps.
 2. the tangents are the same at the meeting points so that the transition is smooth.
 **INSERT DIAGRAM**
+It must be noted that each curve is cubic: $u^3p_0 + 3u^2(1-u)p_1 + 3u(1-u)p_2 + (1-u)^3p_3$
 
 A good way to approach this is to count how many constraints and degrees of freedom are there, how many conditions are you trying to satisfy, how many degrees of freedom are you allowed to manipulate?
 
@@ -192,22 +197,91 @@ Do we think of it as 4 degrees of freedom, or since each of the points has two c
 Good to differentiate between scalar degrees of freedom and vector degrees of freedom.
 
 How many constraints are there in this case?
-2 - endpoints must meet and tangents must meet.
+2 - endpoints must meet and tangents must meet. Each of these is a vector condition. The two components of the endpoints have to agree. The two components of the tangent components have to agree.
+Not that difficult.
 
+Could you do this with a quadratic Bezier curve? Or a linear Bezier curve?
+No you cannot, and one way to think about this would be that 
+You have exactly the same number of degrees of freedom as you have contraints. If you reduce the number of curves, you reduce the number of degrees of freedom and you do not get the nice continuity you achieve through cubic curves.
 
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
-**INSERT DIAGRAM**
+You can get higher order curves, but what about higher order surfaces?
+
+### Tensor Product
+, the value at any point $(u, v)$ given by product of a curve f at u and a curve g at v (sometimes called the "tensor product"):
 **INSERT DIAGRAM**
 
+### Bezier Patches
+You can replace scalar values with vector values for points in space and you get a Bezier Patch.
+A Bezier path is the sum of (tensor) products of Bernstein bases.
+**INSERT DIAGRAM**
 
+All these bases give a sense of local control.
+If we associate each of these bases with a control point, then we can take a linear combination of these basis functions and get a Bezier patch.
+
+So now we have a Bezier patch, how do we get a Bezier surface?
+We simply connect the Bezier patches to get a Bezier surface.
+But a question arises:
+#### Can we always get tangent continuity with Bezier patches?
+To answer this we need to consider two more questions:
+- How many constraints are present?
+- How many degrees of freedom are there?
+
+Bezier patches work great for surfaces where exactly four pathes meet around every vertex, but can be a lot more complicated. Thus, people have come up with other sline patch schemes, e.g. NURBS, Gregory, Pm, polar, etc., and each of these have some tradeoffs, for example:
+- degrees of freedom
+- continuity
+- difficulty of editing
+- cost of evaluation
+- generality
+- etc.
+
+### Rational B-Splines
+But there is an issue, Bezier cannot exactly represent conics, not even a circle using curves, and with surfaces, they cannot represent cylinders, and these are very important shapes. How to go about this issue?
+
+The solution is very simple: interpolate in homogeneous coordinates, then project back to the plane, and the result is called a *rational* B-spline.
+
+**INSERT DIAGRAM**
+
+### NURBS
+Stands for Non-Uniform Rational B-Splines. In this method we can have knots at arbitrary locations, non uniformly. Things are expressed in homogeneous coordinates and then we do a divide, we get the quotient, which is a rational number. And we have a piecewise polynomial curve which gives us a B-Spline.
+
+#### How do we go from curves to surfaces?
+We take a tensor product of the NURBS curves to get a patch:
+
+$S(u,v) = N_i(u)N_j(v)p_ij$
+**fix the j**
+
+And we use multiple NURBS patches to form a surface.
+
+Pros of using NURBS:
+- easy to evaluate
+- make exact conics
+- high degree of continuity
+
+Cons:
+- hard to piece together/edit many degrees of freedom
+
+### Subdivision
+The alternative starting point for curves/surfaces is subdivision. The idea is simple, you start with a control curve and repeatedly split, take weighted average to get new positions, and by splitting over and over and with a careful choice of averaging rule, we approach a nice limit curve.
+
+**INSERT DIAGRAM**
+
+
+
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+**INSERT DIAGRAM**
+
+
+<img src="image.png" alt="alt text" width="50%">
+<img src="image.png" alt="alt text" width="50%">
+<img src="image.png" alt="alt text" width="50%">
+<img src="image.png" alt="alt text" width="50%">
+<img src="image.png" alt="alt text" width="50%">
+<img src="image.png" alt="alt text" width="50%">
 
 
 
