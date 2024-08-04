@@ -40,10 +40,12 @@ end
 function GameObject:update(dt)
     self.x = self.x + self.dx * dt
     self.y = self.y + self.dy * dt
+
     if self.projectile then
         self.distanceTravelled = self.distanceTravelled + THROW_THRUST * dt
     end
 end
+
 
 function GameObject:throw(dir)
     if dir == 'left' then
