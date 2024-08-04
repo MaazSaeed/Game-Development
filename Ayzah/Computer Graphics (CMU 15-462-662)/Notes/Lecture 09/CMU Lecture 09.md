@@ -263,6 +263,31 @@ Cons:
 ### Subdivision
 The alternative starting point for curves/surfaces is subdivision. The idea is simple, you start with a control curve and repeatedly split, take weighted average to get new positions, and by splitting over and over and with a careful choice of averaging rule, we approach a nice limit curve.
 
+
+If you have a carefully chosen averaging rule, you will often get the exact same curves as some of the spline schemes.
+There will come a point where the two perspectives (NURBS and subdivision) diverge, things that are easy to do with subdivision and harder to do with NURBS, and vice versa.
+
+#### Is subdivision explicit or implicit representation?
+Initially it seems like a vit of a grey area, but you will see that for a given value, you have a deterministic procedure that gives the point on the surface. It is not a test, making it an explicit representation.
+
+## Lane Riesenfeld example (rewatch and write)
+
+### Subdivision Surfaces
+1. You start with a polygon mesh (which can be termed as a "control cage")
+2. You subdivide each element into some number of pieces.
+3. Update the vertices via local averaging
+4. There are many possible rules:
+      - Catmull-Clark (for quads)
+      - Loop (for triangles)
+      - ...
+
+The common issues that come with subdivision surfaces are:
+- Are they interpolating or approximating? Do the surfaces pass through the vertices of the control cage or just come near them?
+- Do we have good continuity at vertices? Do planes meet up and have a nice continuity/curvature?
+
+It is safe to say that subdivision surfaces are easier than splines for modeling, but harder to evaluate pointwise.
+
+
 **INSERT DIAGRAM**
 
 
