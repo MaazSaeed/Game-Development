@@ -274,7 +274,7 @@ function Room:update(dt)
                 table.remove(self.objects, k)
             else
                 -- The pot shall not trigger any collision with the player if the player has the current pot equipped and throws it
-                if not (object.distanceTravelled > 0) then
+                if not object.projectile then
                     object.onCollide(self.player, dt)
                 end
             end
