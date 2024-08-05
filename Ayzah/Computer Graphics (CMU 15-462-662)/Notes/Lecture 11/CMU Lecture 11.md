@@ -130,4 +130,54 @@ By using the weighted combination of the old vertices, new vertex positions are 
 ![alt text](image-12.png)
 
 
+### Loop Subdivision
+Loop subdivision is an alternative scheme for triangle meshes, the curvature is continuous away from irregular vertices ("$C^2$"), and uses a similar algorithm with different rules:
 
+1. Split each triangle into four by inserting vertices on the edges.
+
+![alt text](image-13.png)
+
+2. Assign new vertex positions based on the weights.
+
+![alt text](image-14.png)
+
+How do we actually change/update the connectivity. We can do pointer reassignments, but we can do atomic edge operations as well.
+
+#### Loop Subdivision via Edge Operations
+
+![alt text](image-15.png)
+
+### Simplification via Edge Collapse
+A popular scheme is to iteratively collapse edges using the following greedy algorithm:
+- assign each edge a cost
+- collapse edge with least cost
+- repeat until target number of elements is reached.
+
+Although this is a greedy algorithm, it is a particularly effective cost function: *quadric error metric*
+![alt text](image-16.png)
+
+### Quadric Error Metric
+This tells us the approximate distance to a collection of triangles. 
+
+![alt text](image-17.png)
+
+#### Why is the quadric error = 0 at point p?
+The quadric error is the sum of the sum of squared point-to-plane distances, it tells how far away are we from the planes in total. The only point that is on all the planes simultaneously is the vertex.
+
+We are not limited to just using this technique for vertex that is a common point for some triangles, but can be used to entire regions of meshes.
+
+### Quadric Error - Homogeneous Coordinates
+![alt text](image-18.png)
+
+Suppose in coordinates we have:
+- a query point **x** $= (x, y, z)$
+- a normal n = $(a, b, c)$
+- an offset $d = <n,p>$
+
+In homogeneous coordinates, let 
+- **u** = $(x, y, z, 1)$
+- **v** = $(a, b, c, d)$
+
+The signed distance to the plane is then just <**u**, **v**> = $ax + by + cz + d$
+
+The squared distance is <**u**, **v**>$^2$ = $u^T(vv^T)u = u^TKu$
