@@ -82,3 +82,52 @@ A more sophisticated condition is the Delaunay (empty circumcircles)
 
 Delaunay triangles come with a tradeoff: they do not have the best approximation, which can be achieved by skinny triangles.
 
+![alt text](image-8.png)
+
+#### What else constitutes a "good" mesh?
+It is important for the mesh to have regular vertex degree, meaning, how many vertices meet at a point. So a degree 6 for a triangle mesh would be applicable, and degree four would be for quad mesh.
+
+There is a relationship between regular degree and triangle shape, if the degree is too high, e.g. 10, or if it is too low, e.g. 3, the mesh would be of an irregular shape.
+
+Plus, having regular vertex degrees allows easy mapping of the  region of mesh onto a regular array.
+Plus, it also helps in subdivision, which is the method to make smoother. If the degree is something like 6, subdivision will give a smooth surface, whereas if the degree is 20, the subdivision will not give a smooth result.
+
+![alt text](image-9.png)
+
+#### How do we upsample a mesh?
+
+### Upsampling via Subdivision
+
+Using subdivision, we will just split elements into smaller pieces, hence the connectivity, then we replace the vertex positions with the weighted average of the vertex positions, thus the geometry.
+
+![alt text](image-10.png)
+
+Two different concepts come in subdivision: are we *interpolating* or are we *approximating*?
+
+Does the limit surface pass exactly through the vertices in the control cage or does it just come near the vertices?
+
+The continuity of the surface is also very important as we use subdivision for a smooth approximation. Differentiation may also be involved in this.
+
+We also want to know how does it behave at irregular vertices.
+
+There are many options for subdivision schemes, e.g.
+- Quad: Catmull-Clark
+- Loop subdivision (very common for triangles)
+- Butterfly
+- Sqrt(3)
+- and more
+
+### Catmull-Clark Subdivision
+This is not just for quadrilateral meshes, we can start with a polygon of any kind, and with subdivision, they turn into quadrilaterals.
+
+By using the weighted combination of the old vertices, new vertex positions are created.
+![alt text](image-11.png)
+
+1. We will just take a mean of all the edges.
+2. When those are determined, we compute the edge coordinates.
+3. The vertex coordinates are calculated using a formula designed for this purpose.
+
+![alt text](image-12.png)
+
+
+
