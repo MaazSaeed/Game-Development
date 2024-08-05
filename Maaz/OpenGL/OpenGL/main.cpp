@@ -81,6 +81,7 @@ int main()
 
 
 	// Vertices coordinates
+	
 	GLfloat vertices[] =
 	{
 		-0.5f, -0.5f * float(sqrt(3)) / 3, 0.0f, // Lower left corner
@@ -88,23 +89,53 @@ int main()
 		0.0f, 0.5f * float(sqrt(3)) * 2 / 3, 0.0f // Upper corner
 	};
 
+	// Exercise 1: (EASY)
+	GLfloat equilateralTriangleVertices[] = {
+		0.0f, 0.0f, 0.0f,
+		0.0f, 0.5f, 0.0f,
+		0.5f, 0.0f, 0.0f
+	};
+
+	// Exercise 1 : MEDIUM
+	GLfloat squareVertices[] = {
+		// upper triangle
+		0.5f, 0.5f, 0.0f, // top right corner (common)
+		-0.5f, -0.5f, 0.0f, // bottom left corner (common)
+		-0.5f, 0.5f, 0.0f, // top left corner
+
+		// lower triangle
+		0.5f, -0.5f, 0.0f, // bottom right corner
+	   -0.5f, -0.5f, 0.0f, // bottom left corner (common)
+	    0.5f, 0.5f, 0.0f, // top right corner (common)
+
+	};
+
+	// Exercise 1: HARD
+	GLfloat squareLoopVertices[] = {
+		-0.5f, 0.5f, 0.0f, // top left corner
+		-0.5f, -0.5f, 0.0f, // bottom left corner 
+		0.5f, -0.5f, 0.0f, // bottom right corner
+		0.5f, 0.5f, 0.0f, // top right corner 
+	};
+
 	// Create reference containers for the Vartex Array Object and the Vertex Buffer Object
-	GLuint VAO, VBO;
+	GLuint VAO[1];
+	GLuint VBO[1];
 
 	// Generate the VAO and VBO with only 1 object each
-	glGenVertexArrays(1, &VAO);
-	glGenBuffers(1, &VBO);
+	glGenVertexArrays(1, VAO);
+	glGenBuffers(1, VBO);
 
 	// Make the VAO the current Vertex Array Object by binding it
-	glBindVertexArray(VAO);
+	glBindVertexArray(VAO[0]);
 
 	// Bind the VBO specifying it's a GL_ARRAY_BUFFER
-	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO[0]);
 	// Introduce the vertices into the VBO
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(squareLoopVertices), squareLoopVertices, GL_STATIC_DRAW);
 
 	// Configure the Vertex Attribute so that OpenGL knows how to read the VBO
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), 0);
 	// Enable the Vertex Attribute so that OpenGL knows to use it
 	glEnableVertexAttribArray(0);
 
@@ -118,15 +149,15 @@ int main()
 	while (!glfwWindowShouldClose(window))
 	{
 		// Specify the color of the background
-		glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
+		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		// Clean the back buffer and assign the new color to it
 		glClear(GL_COLOR_BUFFER_BIT);
 		// Tell OpenGL which Shader Program we want to use
 		glUseProgram(shaderProgram);
 		// Bind the VAO so OpenGL knows to use it
-		glBindVertexArray(VAO);
+		glBindVertexArray(VAO[0]);
 		// Draw the triangle using the GL_TRIANGLES primitive
-		glDrawArrays(GL_TRIANGLES, 0, 3);
+		glDrawArrays(GL_LINE_LOOP, 0, 4);
 		// Swap the back buffer with the front buffer
 		glfwSwapBuffers(window);
 		// Take care of all GLFW events
@@ -134,10 +165,9 @@ int main()
 	}
 
 
-
 	// Delete all the objects we've created
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteVertexArrays(1, VAO);
+	glDeleteBuffers(1, VBO);
 	glDeleteProgram(shaderProgram);
 	// Delete window before ending the program
 	glfwDestroyWindow(window);
