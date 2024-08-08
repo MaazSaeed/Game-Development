@@ -213,43 +213,28 @@ function TakeTurnState:victory()
                         -- set our exp to whatever the overlap is
                         self.playerPokemon.currentExp = self.playerPokemon.currentExp - self.playerPokemon.expToLevel
 
+                        -- previous player pokemon stats
+                        pHP, pAttack, pDefense, pSpeed = 
+                        self.playerPokemon.HP, 
+                        self.playerPokemon.attack,
+                        self.playerPokemon.defense,
+                        self.playerPokemon.speed
+
+                        -- stats after leveling up
                         HPIncrease, attackIncrease, 
                         defenseIncrease, speedIncrease = self.playerPokemon:levelUp()
-
-                        statsLevelUpMenu = Menu{ 
-                            x = VIRTUAL_WIDTH - 64,
-                            y = VIRTUAL_HEIGHT - 64,
-                            width = 64,
-                            height = 64,
-                            items = {
-                                {
-                                    text = 'HP' .. self.playerPokemon .. ' + ' .. HPIncrease .. ' = ' .. (self.playerPokemon.HP + HPIncrease),
-                                    onSelect = function()
-                                        gStateStack:pop()
-                                        gStateStack:push(TakeTurnState(self.battleState))
-                                    end
-                                } 
-                            }
-                        }
 
                         -- storing in table, so that we can loop through and construct the menu
                         -- rather than manually doing for each stat by hand
                         statComponents = {
                             --         increment, current
-                            ['HP'] = {HPIncrease, self.playerPokemon.HP},
-                            ['Attack'] = {attackIncrease, self.playerPokemon.attack},
-                            ['Defense'] = {defenseIncrease, self.playerPokemon.defense},
-                            ['Speed'] = {speedIncrease, self.playerPokemon.speed}
+                            ['HP'] = {HPIncrease, pHP},
+                            ['Attack'] = {attackIncrease, pAttack},
+                            ['Defense'] = {defenseIncrease, pDefense},
+                            ['Speed'] = {speedIncrease, pSpeed}
                         }
 
-                        statsLevelUpMessage = 'Congratulations! Level Up!'
-                        for stat, value in pairs(statComponents) do
-                            increment = value[1]
-                            current = value[2]
-                            statsLevelUpMessage = '\n' .. statsLevelUpMessage .. self:makeEquation(current, increment, stat)
-                        end
-
-                        gStateStack:push(BattleMessageState(statsLevelUpMessage,
+                        gStateStack:push(BattleLevelUpState(statComponents,
                         function()
                             self:fadeOutWhite()
                         end))
