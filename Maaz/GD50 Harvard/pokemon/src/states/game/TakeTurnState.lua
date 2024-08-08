@@ -220,7 +220,7 @@ function TakeTurnState:victory()
                         self.playerPokemon.defense,
                         self.playerPokemon.speed
 
-                        -- stats after leveling up
+                        -- new stats after leveling up
                         HPIncrease, attackIncrease, 
                         defenseIncrease, speedIncrease = self.playerPokemon:levelUp()
 
@@ -228,10 +228,10 @@ function TakeTurnState:victory()
                         -- rather than manually doing for each stat by hand
                         statComponents = {
                             --         increment, current
-                            ['HP'] = {HPIncrease, pHP},
-                            ['Attack'] = {attackIncrease, pAttack},
+                            ['Speed'] = {speedIncrease, pSpeed},
                             ['Defense'] = {defenseIncrease, pDefense},
-                            ['Speed'] = {speedIncrease, pSpeed}
+                            ['Attack'] = {attackIncrease, pAttack},
+                            ['HP'] = {HPIncrease, pHP}
                         }
 
                         gStateStack:push(BattleLevelUpState(statComponents,

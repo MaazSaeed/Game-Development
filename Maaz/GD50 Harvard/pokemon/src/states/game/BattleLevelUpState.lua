@@ -23,7 +23,7 @@ function BattleLevelUpState:makeEquation(currentValue, increment, stat)
 end
 
 function BattleLevelUpState:CreateStatTable()
-    statsLevelUpMessage = "Congratulations! Level Up!\n"
+    statsLevelUpMessage = "Congratulations! Level Up!"
 
     for stat, value in pairs(self.statComponents) do
         increment = value[1]
