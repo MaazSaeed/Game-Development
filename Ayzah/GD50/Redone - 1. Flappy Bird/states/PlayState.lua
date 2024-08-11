@@ -91,7 +91,7 @@ function PlayState:update(dt)
     self.bird:update(dt)
 
     -- reset if we get to the ground
-    if self.bird.y > VIRTUAL_HEIGHT - 15 then
+    if self.bird.y > VIRTUAL_HEIGHT - 15 or self.bird.y < 0 then
         sounds['explosion']:play()
         sounds['hurt']:play()
 
