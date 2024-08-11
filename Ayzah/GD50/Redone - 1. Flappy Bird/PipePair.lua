@@ -36,12 +36,14 @@ end
 function PipePair:update(dt)
     -- remove the pipe from the scene if it's beyond the left edge of the screen,
     -- else move it from right to left
-    if self.x > -PIPE_WIDTH then
-        self.x = self.x - PIPE_SPEED * dt
-        self.pipes['lower'].x = self.x
-        self.pipes['upper'].x = self.x
-    else
-        self.remove = true
+    if not paused then
+        if self.x > -PIPE_WIDTH then
+            self.x = self.x - PIPE_SPEED * dt
+            self.pipes['lower'].x = self.x
+            self.pipes['upper'].x = self.x
+        else
+            self.remove = true
+        end
     end
 end
 

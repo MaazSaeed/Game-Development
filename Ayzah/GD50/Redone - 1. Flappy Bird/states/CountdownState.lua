@@ -24,14 +24,16 @@ end
     we should transition to our PlayState.
 ]]
 function CountdownState:update(dt)
-    self.timer = self.timer + dt
+    if not paused then
+        self.timer = self.timer + dt
 
-    if self.timer > COUNTDOWN_TIME then
-        self.timer = self.timer % COUNTDOWN_TIME
-        self.count = self.count - 1
+        if self.timer > COUNTDOWN_TIME then
+            self.timer = self.timer % COUNTDOWN_TIME
+            self.count = self.count - 1
 
-        if self.count == 0 then
-            gStateMachine:change('play')
+            if self.count == 0 then
+                gStateMachine:change('play')
+            end
         end
     end
 end

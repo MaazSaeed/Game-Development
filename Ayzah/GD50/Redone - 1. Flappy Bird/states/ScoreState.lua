@@ -39,7 +39,7 @@ function ScoreState:render()
 
     if self.score < 5 then
         love.graphics.draw(self.bronze, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)
-    elseif self.score > 5 and self.score < 10 then
+    elseif self.score >= 5 and self.score < 10 then
         love.graphics.draw(self.silver, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)
     else
         love.graphics.draw(self.gold, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)

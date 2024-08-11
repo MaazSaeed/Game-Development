@@ -68,6 +68,8 @@ local GROUND_SCROLL_SPEED = 60
 
 local BACKGROUND_LOOPING_POINT = 413
 
+paused = false
+
 -- global variable we can use to scroll the map
 scrolling = true
 
@@ -166,6 +168,11 @@ function love.update(dt)
 
     gStateMachine:update(dt)
 
+    if love.keyboard.wasPressed('p') then
+        paused = not paused
+        scrolling = not scrolling
+    end
+
     love.keyboard.keysPressed = {}
     love.mouse.buttonsPressed = {}
 end
@@ -177,5 +184,9 @@ function love.draw()
     gStateMachine:render()
     love.graphics.draw(ground, -groundScroll, VIRTUAL_HEIGHT - 16)
     
+    if paused then
+        love.graphics.setFont(mediumFont)
+        love.graphics.printf('Paused', 0, 100, VIRTUAL_WIDTH, 'center')
+    end
     push:finish()
 end

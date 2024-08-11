@@ -42,14 +42,16 @@ function Bird:collides(pipe)
 end
 
 function Bird:update(dt)
-    self.dy = self.dy + GRAVITY * dt
+    if not paused then
+        self.dy = self.dy + GRAVITY * dt
 
-    if love.keyboard.wasPressed('space') or love.mouse.wasPressed(1) then
-        self.dy = -5
-        sounds['jump']:play()
+        if love.keyboard.wasPressed('space') or love.mouse.wasPressed(1) then
+            self.dy = -4
+            sounds['jump']:play()
+        end
+
+        self.y = self.y + self.dy
     end
-
-    self.y = self.y + self.dy
 end
 
 function Bird:render()
