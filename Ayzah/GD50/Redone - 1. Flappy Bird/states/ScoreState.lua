@@ -38,11 +38,11 @@ function ScoreState:render()
     love.graphics.printf('Score: ' .. tostring(self.score), 0, 100, VIRTUAL_WIDTH, 'center')
 
     if self.score < 5 then
-        love.graphics.draw(self.bronze, VIRTUAL_WIDTH / 2 - 5, VIRTUAL_HEIGHT / 2 - 5)
+        love.graphics.draw(self.bronze, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)
     elseif self.score > 5 and self.score < 10 then
-        love.graphics.draw(self.silver, 0, 0)
+        love.graphics.draw(self.silver, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)
     else
-        love.graphics.draw(self.gold, 0, 0)
+        love.graphics.draw(self.gold, VIRTUAL_WIDTH / 2 - 16, VIRTUAL_HEIGHT / 2 - 16)
     end
 
     love.graphics.printf('Press Enter to Play Again!', 0, 160, VIRTUAL_WIDTH, 'center')
