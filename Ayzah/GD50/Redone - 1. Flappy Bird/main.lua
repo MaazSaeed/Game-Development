@@ -15,6 +15,10 @@
     for years prior. Illustrates some of the most basic procedural generation of game
     levels possible as by having pipes stick out of the ground by varying amounts, acting
     as an infinitely generated obstacle course for the player.
+
+
+
+    1. Randomize the gap between pipes (vertical space), such that they’re no longer hardcoded to 90 pixels.
 ]]
 
 -- push is a library that will allow us to draw our game at a virtual
