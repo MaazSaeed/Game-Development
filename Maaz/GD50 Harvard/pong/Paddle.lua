@@ -36,7 +36,7 @@ end
 
 
 function Paddle:getPosition()
-    return {self.x, self.y}
+    return self.x, self.y
 end
 
 function Paddle:update(dt)

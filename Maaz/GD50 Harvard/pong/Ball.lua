@@ -32,7 +32,7 @@ end
 ]]
 
 function Ball:getPosition()
-    return {self.x, self.y} 
+    return self.x, self.y
 end
 
 

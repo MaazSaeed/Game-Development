@@ -90,7 +90,7 @@ function love.load()
 
     -- initialize our player paddles; make them global so that they can be
     -- detected by other functions and modules
-    player1 = Paddle(10, 30, 5, 20)
+    player1 = Paddle(5, 30, 5, 20)
     player2 = Paddle(VIRTUAL_WIDTH - 10, VIRTUAL_HEIGHT - 30, 5, 20)
 
     -- place a ball in the middle of the screen
@@ -244,18 +244,17 @@ function love.update(dt)
     end
     ]]--
 
-    ballPosition = ball:getPosition()
-    paddlePosition = player1:getPosition()
+    ballx, bally = ball:getPosition()
+    paddle1x, paddle1y = player1:getPosition()
 
-    -- steer vector = [xp - xb, yp - yb], the paddle's x position is constant e.g., 0
-    steer = {ballPosition[1], ballPosition[2] - paddlePosition[2]}
-    steerMag = mag(steer)
-    theta = math.atan(steer[2] / (steer[1] ~= 0 and steer[1] or 1)) -- to avoid divison by zero
-    steerY = math.sin(theta) * steerMag
-    local scalar = 7
-    player1.dy = ball.dx < 0 and steerY * scalar or 0
-
-
+    steer = bally - paddle1y
+    amp = 150
+    
+    if ball.dx < 0 and ball.x < VIRTUAL_WIDTH - 100 then
+        player1.dy = (steer < 0 and -1 or 1) * amp
+    else
+        player1.dy = player1.dy * 0.99
+    end
 
     -- player 2
     if love.keyboard.isDown('up') then
