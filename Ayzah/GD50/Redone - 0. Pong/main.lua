@@ -116,7 +116,6 @@ function love.load()
     -- 4. 'done' (the game is over, with a victor, ready for restart)
     gameState = 'start'
 
-    incomingBall = false;
 end
 
 --[[
@@ -154,7 +153,6 @@ function love.update(dt)
         if ball:collides(player1) then
             ball.dx = -ball.dx * 1.03
             ball.x = player1.x + 5
-            incomingBall = false
 
             -- keep velocity going in the same direction, but randomize it
             if ball.dy < 0 then
@@ -168,7 +166,6 @@ function love.update(dt)
         if ball:collides(player2) then
             ball.dx = -ball.dx * 1.03
             ball.x = player2.x - 4
-            incomingBall = true
 
             -- keep velocity going in the same direction, but randomize it
             if ball.dy < 0 then
@@ -218,7 +215,6 @@ function love.update(dt)
             servingPlayer = 2
             player1Score = player1Score + 1
             sounds['score']:play()
-            incomingBall = true
 
             if player1Score == 10 then
                 winningPlayer = 1
@@ -229,7 +225,7 @@ function love.update(dt)
             end
         end
         
-        if (incomingBall and math.abs(ball.y - player1.y) > 5) then
+        if (math.abs(ball.y - player1.y) > 5) then
             if (ball.dy > 0 and (ball.y - player1.y > 10)) then
                 player1.dy = math.random(PADDLE_SPEED)
             elseif (ball.dy < 0 and (ball.y - player1.y < 10)) then
