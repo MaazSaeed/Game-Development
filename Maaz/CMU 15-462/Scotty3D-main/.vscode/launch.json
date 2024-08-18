@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug Scotty3D",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "D:\\Game Dev\\Game-Development\\Maaz\\CMU 15-462\\Scotty3D-main\\Scotty3D.exe",
+            "args": [], // Add command-line arguments if needed
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false
+        }
+    ]
+}
