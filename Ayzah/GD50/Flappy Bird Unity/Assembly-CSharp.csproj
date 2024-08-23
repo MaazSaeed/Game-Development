@@ -65,6 +65,7 @@
     <Compile Include="Assets\LogicScript.cs" />
     <Compile Include="Assets\PipeMoveScript.cs" />
     <Compile Include="Assets\PipeMiddleScript.cs" />
+    <Compile Include="Assets\AudioManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

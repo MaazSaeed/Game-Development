@@ -26,6 +26,7 @@ public class BirdScript : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)) && birdIsAlive)
         {
             myRigidbody.velocity = Vector2.up * flapStrength;
+            AudioManager.instance.PlayJumpSound();
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -33,15 +34,20 @@ public class BirdScript : MonoBehaviour
             Application.Quit();
         }
 
-        if (transform.position.y > topBoundary || transform.position.y < bottomBoundary)
+        if ((transform.position.y > topBoundary || transform.position.y < bottomBoundary) && birdIsAlive)
         {
             logic.gameOver();
+            AudioManager.instance.PlayHurtSound();
         }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         logic.gameOver();
+        if (birdIsAlive)
+        {
+            AudioManager.instance.PlayHurtSound();
+        }
         birdIsAlive = false;
     }
 }

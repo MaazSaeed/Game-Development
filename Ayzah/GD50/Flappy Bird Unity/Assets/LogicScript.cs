@@ -18,6 +18,7 @@ public class LogicScript : MonoBehaviour
         {
             playerScore += incrementalValue;
             scoreText.text = playerScore.ToString();
+            AudioManager.instance.PlayScoreSound();
         }
     }
 
