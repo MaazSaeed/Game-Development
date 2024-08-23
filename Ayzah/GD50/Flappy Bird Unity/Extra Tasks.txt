@@ -1,0 +1,7 @@
+Game over when bird goes off screen
+Fix scoring bug
+Sound effects
+Particle system
+Animate wings
+Title screen scene
+PlayerPrefs - save player high score to hard drive
