@@ -5,14 +5,14 @@ function PauseState:init()
 end
 
 function PauseState:enter(params)
-    sounds['music']:stop()
-    sounds['pause']:play()
+    sounds['music']:pause()
+    --sounds['pause']:play()
     self.previousState = params
 end
 
 function PauseState:update(dt)
     if love.keyboard.wasPressed('p') then
-        sounds['unpause']:play()
+        --sounds['unpause']:play()
         sounds['music']:play()
 
         -- resuming the game from where the player left off, including the pipes, score and lastY of the pipe

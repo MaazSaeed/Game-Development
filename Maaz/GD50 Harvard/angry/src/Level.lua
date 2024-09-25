@@ -183,8 +183,8 @@ function Level:update(dt)
         -- then on pressing space-bar split the player's alien into three
         if love.keyboard.wasPressed('space') and not self.playerCollided then
             gSounds['powerup']:play()
-            local alien1 = Alien(self.world, 'round',xPos, yPos + 50, 'Player')
-            local alien2 = Alien(self.world, 'round', xPos, yPos - 50, 'Player')
+            local alien1 = Alien(self.world, 'round', xPos + math.random(-10, 30), yPos + 50, 'Player')
+            local alien2 = Alien(self.world, 'round', xPos + math.random(-10, 30), yPos - 50, 'Player')
 
             local xShift, yShift = math.random(5, 10), math.random(10, 20)
 
